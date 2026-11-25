@@ -495,7 +495,7 @@ footer b{color:var(--muted);font-weight:600}
     <div class="progress"><i id="gBar"></i></div>
 
     <div class="qcard">
-      <div class="qtag" id="gLevelTag">双向 · 综合 · 第 1 题</div>
+      <div class="qtag" id="gLevelTag">双向 · 混合 · 第 1 题</div>
       <div class="qexpr" id="gExpr"></div>
       <div class="qask" id="gAsk"></div>
     </div>
@@ -1478,7 +1478,8 @@ function renderQuestion(){
   updateUsed();
   setBar((G.idx + 1) / G.qs.length);
 
-  $("#gLevelTag").textContent = MODES[q.kind] + " · " + LEVELS[q.level].name + " · 第 " + (G.idx + 1) + " 题";
+  /* 题签显示"本次选择的难度"，不是模板自带的难度，避免和计时时长对不上 */
+  $("#gLevelTag").textContent = MODES[q.kind] + " · " + LEVELS[G.level].name + " · 第 " + (G.idx + 1) + " 题";
   renderMath($("#gExpr"), displayExpr(q), true);
   renderExplain($("#gAsk"), askText(q));
 
