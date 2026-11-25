@@ -1444,15 +1444,19 @@ document.addEventListener("visibilitychange", function(){
   if(G) G.tLast = (window.performance && performance.now) ? performance.now() : Date.now();
 });
 
-/* ---------------------------------------------------------------- 出题渲染 */
+/* ---------------------------------------------------------------- 出题渲染
+   题面写成完整的等式，不留任何提示：
+     求导题 → (cot x)′ = ?
+     积分题 → ∫sec x dx = ?        （不提 +C，靠选项自己判断）
+     概念题 → 题干用文字说清楚
+*/
 function displayExpr(q){
-  if(q.kind === "integ") return "\\int " + q.expr + "\\,dx";
+  if(q.kind === "integ") return "\\int " + q.expr + "\\,dx = ?";
+  if(q.kind === "deriv") return "\\left(" + q.expr + "\\right)' = ?";
   return q.expr;
 }
 function askText(q){
-  if(q.prompt) return q.prompt;
-  if(q.kind === "integ") return "求不定积分（别忘了 $+C$）";
-  return "求 $f'(x)$";
+  return q.prompt || "";
 }
 /* 错题回顾里要能脱离上下文看懂：求导题补上撇号 */
 function reviewExpr(q){
@@ -1481,7 +1485,9 @@ function renderQuestion(){
   /* 题签显示"本次选择的难度"，不是模板自带的难度，避免和计时时长对不上 */
   $("#gLevelTag").textContent = MODES[q.kind] + " · " + LEVELS[G.level].name + " · 第 " + (G.idx + 1) + " 题";
   renderMath($("#gExpr"), displayExpr(q), true);
-  renderExplain($("#gAsk"), askText(q));
+  var ask = askText(q), askEl = $("#gAsk");
+  if(ask){ askEl.style.display = ""; renderExplain(askEl, ask); }
+  else { askEl.style.display = "none"; askEl.textContent = ""; }
 
   var wrap = $("#gOptions");
   wrap.innerHTML = "";
