@@ -225,6 +225,11 @@ input.shake{animation:shake .4s ease;border-color:var(--danger)!important}
 .board-status.ok{color:var(--teal)}
 .board-status.bad{color:var(--danger)}
 .rank-more{font-size:12.5px;color:var(--faint);text-align:center;padding:12px 0 2px}
+.submit-state{font-size:13px;color:var(--faint);margin:-4px 0 18px;min-height:20px;
+  display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;text-align:center}
+.submit-state.ok{color:var(--ok)}
+.submit-state.bad{color:var(--danger)}
+.submit-state .retry{padding:7px 12px;font-size:12.5px}
 .rank-empty{text-align:center;color:var(--faint);padding:50px 0}
 .rank-list{display:grid;gap:10px}
 .rank-row{display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:14px;background:var(--surface);
@@ -528,6 +533,7 @@ footer b{color:var(--muted);font-weight:600}
       <div class="stat"><div class="num bad" id="rWrong">0</div><div class="cap">答错 / 超时</div></div>
       <div class="stat"><div class="num" id="rTime">0s</div><div class="cap">总用时</div></div>
     </div>
+    <div class="submit-state" id="rSubmit"></div>
     <div class="card" id="rWrongWrap">
       <div class="wl-head">错题回顾<span class="wl-sub">对照解析，回表格里找那一行</span></div>
       <div id="rWrongList"></div>
@@ -574,7 +580,7 @@ footer b{color:var(--muted);font-weight:600}
   </section>
 
   <footer>
-    导数 · 积分公式竞赛 · 单文件离线可用 · 公式引擎 <b id="engineTag">…</b><br>
+    导数 · 积分公式竞赛 · 单文件离线可用 · 公式引擎 <b id="engineTag">…</b> · 版本 <b id="verTag">v5</b><br>
     题目由程序实时生成，答案可逐题数值复算验证
     <details class="fixlog">
       <summary>本版修掉的 bug（相对上一版「求导公式竞赛.html」）</summary>
@@ -1679,7 +1685,12 @@ function finishGame(){
   $("#rWrong").textContent = G.wrong;
   $("#rTime").textContent = used + "s";
   renderWrongList();
-  pushScore(saveRank(G, acc));      /* 本机留档 + 推送到共享榜单 */
+  G.rec = saveRank(G, acc);            /* 本机留档 */
+  showSubmitState("sending");
+  pushScore(G.rec, function(ok){       /* 推送到共享榜单，成功/失败都显示出来 */
+    G.submitted = ok;
+    showSubmitState(ok ? "ok" : "fail");
+  });
   go("result");
 }
 
@@ -1690,9 +1701,11 @@ function finishGame(){
    ntfy 免费频道只保留 12 小时，所以榜单天然是"当天/当场"的。
 --------------------------------------------------------------------------- */
 var RANK_KEY = "dj_rank_v1";
-var BOARD_TOPIC = "daoshu-4f22d58046";       /* 换一个后缀 = 换一块白板 */
-var BOARD_URL = "https://ntfy.sh/" + BOARD_TOPIC;
+/* 第一个频道用于写入；全部频道都会被读取（兼容换过频道号之前的旧记录） */
+var BOARD_TOPICS = ["daoshu-4f22d58046", "daoshu-hj8f3c2a9k3"];
+var BOARD_URL = "https://ntfy.sh/" + BOARD_TOPICS[0];
 var BOARD_TTL_H = 12;
+var APP_VER = "v5";
 
 function loadRank(){
   try{
@@ -1724,49 +1737,113 @@ function esc(s){
   });
 }
 
-/* 交卷后把成绩推给共享榜单；失败静默，绝不影响比赛流程 */
-function pushScore(rec){
-  if(!rec || !window.fetch) return;
+/* 交卷后把成绩推给共享榜单；回调 (ok)，失败不阻塞比赛流程 */
+function pushScore(rec, cb){
+  var settled = false;
+  function done(ok){
+    if(settled) return;
+    settled = true;
+    if(typeof cb === "function"){ try{ cb(ok); }catch(e){} }
+  }
+  if(!rec || !window.fetch){ done(false); return; }
+  var timer = setTimeout(function(){ done(false); }, 9000);
   try{
     fetch(BOARD_URL, {
       method: "POST",
       headers: { "Content-Type": "text/plain;charset=UTF-8" },
       body: JSON.stringify(rec)
-    }).catch(function(){});
-  }catch(e){}
+    }).then(function(r){
+      clearTimeout(timer);
+      done(!!r.ok);
+    }).catch(function(){
+      clearTimeout(timer);
+      done(false);
+    });
+  }catch(e){
+    clearTimeout(timer);
+    done(false);
+  }
 }
 
-/* 拉取共享榜单；(records|null) —— null 表示连不上 */
-function pullScores(cb){
-  if(!window.fetch){ cb(null); return; }
+/* 读一个频道；(records|null) */
+function fetchTopic(topic, cb){
+  var url = "https://ntfy.sh/" + topic + "/json?poll=1&since=" + BOARD_TTL_H + "h";
   var ctrl = window.AbortController ? new AbortController() : null;
   var timer = setTimeout(function(){ if(ctrl){ try{ ctrl.abort(); }catch(e){} } }, 8000);
-  fetch(BOARD_URL + "/json?poll=1&since=" + BOARD_TTL_H + "h", {
-    cache: "no-store", signal: ctrl ? ctrl.signal : undefined
-  }).then(function(r){
-    return r.text();
-  }).then(function(txt){
-    clearTimeout(timer);
-    var out = [], lines = String(txt).split("\n"), i, ln, o, rec;
-    for(i = 0; i < lines.length; i++){
-      ln = lines[i].trim();
-      if(!ln) continue;
-      try{
-        o = JSON.parse(ln);
-        if(!o || !o.message) continue;
-        rec = JSON.parse(o.message);
-        if(!rec || !rec.name || typeof rec.score !== "number") continue;
-        if(!rec.id) rec.id = o.id;
-        if(!rec.ts) rec.ts = (o.time || 0) * 1000;
-        if(!rec.date) rec.date = new Date(rec.ts).toLocaleDateString("zh-CN", { month: "2-digit", day: "2-digit" });
-        out.push(rec);
-      }catch(e){}
-    }
-    cb(out);
-  }).catch(function(){
-    clearTimeout(timer);
-    cb(null);
+  fetch(url, { cache: "no-store", signal: ctrl ? ctrl.signal : undefined })
+    .then(function(r){
+      clearTimeout(timer);
+      if(!r.ok) return null;          /* 429/5xx 不能被当成“0 条成绩” */
+      return r.text();
+    })
+    .then(function(txt){
+      if(txt === null || typeof txt !== "string"){ cb(null); return; }
+      var out = [], lines = txt.split("\n"), i, ln, o, rec;
+      for(i = 0; i < lines.length; i++){
+        ln = lines[i].trim();
+        if(!ln) continue;
+        try{
+          o = JSON.parse(ln);
+          if(!o || o.event !== "message" || !o.message) continue;
+          rec = JSON.parse(o.message);
+          if(!rec || !rec.name || typeof rec.score !== "number") continue;
+          if(!rec.id) rec.id = o.id;
+          if(!rec.ts) rec.ts = (o.time || 0) * 1000;
+          if(!rec.date) rec.date = new Date(rec.ts).toLocaleDateString("zh-CN", { month: "2-digit", day: "2-digit" });
+          out.push(rec);
+        }catch(e){}
+      }
+      cb(out);
+    })
+    .catch(function(){
+      clearTimeout(timer);
+      cb(null);
+    });
+}
+
+/* 拉取共享榜单（多个频道合并）；(records|null) —— null 表示全都连不上 */
+function pullScores(cb){
+  if(!window.fetch){ cb(null); return; }
+  var acc = [], left = BOARD_TOPICS.length, failed = 0;
+  BOARD_TOPICS.forEach(function(t){
+    fetchTopic(t, function(list){
+      if(list === null) failed++;
+      else acc = acc.concat(list);
+      left--;
+      if(left === 0) cb(failed === BOARD_TOPICS.length ? null : acc);
+    });
   });
+}
+
+/* 结算页上的"提交状态"：让学生自己看得见有没有上榜 */
+function showSubmitState(state){
+  var el = $("#rSubmit");
+  if(!el) return;
+  el.className = "submit-state";
+  el.innerHTML = "";
+  if(state === "sending"){
+    el.classList.add("sending");
+    el.textContent = "正在把成绩提交到共享榜单…";
+    return;
+  }
+  if(state === "ok"){
+    el.classList.add("ok");
+    el.textContent = "✓ 成绩已上榜，其他人在「排行榜」里能看到你";
+    return;
+  }
+  if(state === "fail"){
+    el.classList.add("bad");
+    el.appendChild(document.createTextNode("✗ 提交失败（网络受限），成绩只存在这台手机上。"));
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "btn btn-ghost retry";
+    b.textContent = "重试上传";
+    b.addEventListener("click", function(){
+      showSubmitState("sending");
+      pushScore(G && G.rec, function(ok){ showSubmitState(ok ? "ok" : "fail"); });
+    });
+    el.appendChild(b);
+  }
 }
 
 /* 本机 + 共享合并，按 id 去重，同分取用时短 */
@@ -2116,6 +2193,8 @@ document.addEventListener("keydown", function(e){
 (function init(){
   var tag = document.getElementById("engineTag");
   if(tag) tag.textContent = (MATH_ENGINE === "katex") ? "KaTeX（在线）" : "内置渲染（离线兜底）";
+  var vt = document.getElementById("verTag");
+  if(vt) vt.textContent = APP_VER;
   /* 对照表底部的提示卡：里面的 $...$ 也要渲染成公式 */
   $$("#tipList li").forEach(function(li){
     var txt = li.textContent;
