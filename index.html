@@ -219,6 +219,11 @@ input.shake{animation:shake .4s ease;border-color:var(--danger)!important}
 
 /* ===== 排行榜 ===== */
 .rank-toolbar{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.rank-btns{display:flex;gap:8px;flex-wrap:wrap}
+.rank-btns .btn{padding:9px 14px;font-size:13.5px}
+.board-status{font-size:12.5px;color:var(--faint);margin:-2px 0 14px;line-height:1.6;min-height:18px}
+.board-status.ok{color:var(--teal)}
+.board-status.bad{color:var(--danger)}
 .rank-empty{text-align:center;color:var(--faint);padding:50px 0}
 .rank-list{display:grid;gap:10px}
 .rank-row{display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:14px;background:var(--surface);
@@ -422,7 +427,7 @@ footer b{color:var(--muted);font-weight:600}
       <div class="mode">
         <div class="icon">∫</div>
         <h3>积分方向</h3>
-        <p>给出 f(x)，求 ∫f(x)dx。右栏才是真正难记的一半，别忘了 +C。</p>
+        <p>给出 f(x)，求 ∫f(x)dx。右栏才是真正难记的一半，也是失分最多的一半。</p>
         <span class="tag">主攻方向</span>
       </div>
       <div class="mode">
@@ -539,10 +544,14 @@ footer b{color:var(--muted);font-weight:600}
     <div class="rank-toolbar">
       <div>
         <h2 class="section-title" style="margin-bottom:2px">排行榜</h2>
-        <p class="section-sub" style="margin-bottom:0">按得分排序，同分取用时更短者。成绩只存在本机浏览器里。</p>
+        <p class="section-sub" style="margin-bottom:0">按得分排序，同分取用时更短者。所有人交卷后会同步到这里，停留本页每 8 秒自动刷新。</p>
       </div>
-      <button class="btn btn-ghost" id="btnClearRank" type="button">清空记录</button>
+      <div class="rank-btns">
+        <button class="btn btn-teal" id="btnRefreshRank" type="button">刷新</button>
+        <button class="btn btn-ghost" id="btnClearRank" type="button">清空本机</button>
+      </div>
     </div>
+    <div class="board-status" id="boardStatus"></div>
     <div class="rank-empty" id="rankEmpty" style="display:none">还没有比赛记录，先去比一场吧。</div>
     <div class="rank-list" id="rankList"></div>
     <div class="rank-bars" id="rankBars"></div>
@@ -1318,7 +1327,7 @@ function route(){
   }else if(G && !G.clock && G.idx < G.qs.length){
     startClock();                      /* 从别的页面切回未完成的比赛：续表 */
   }
-  if(v === "ranking") renderRanking();
+  if(v === "ranking"){ renderRanking(); startBoardRefresh(); } else { stopBoardRefresh(); }
   if(v === "formula") renderFormula();
   window.scrollTo(0, 0);
 }
@@ -1667,38 +1676,135 @@ function finishGame(){
   $("#rWrong").textContent = G.wrong;
   $("#rTime").textContent = used + "s";
   renderWrongList();
-  saveRank(G, acc);
+  pushScore(saveRank(G, acc));      /* 本机留档 + 推送到共享榜单 */
   go("result");
 }
 
-/* ---------------------------------------------------------------- 排行榜 */
+/* ---------------------------------------------------------------- 排行榜
+   两层数据：
+     1) 本机 localStorage：断网也能看自己的历史
+     2) 共享榜单：ntfy.sh 公开频道，谁交卷都往里发一条，排行榜页拉取汇总
+   ntfy 免费频道只保留 12 小时，所以榜单天然是"当天/当场"的。
+--------------------------------------------------------------------------- */
 var RANK_KEY = "dj_rank_v1";
+var BOARD_TOPIC = "daoshu-hj8f3c2a9k3";       /* 换一个后缀 = 换一块白板 */
+var BOARD_URL = "https://ntfy.sh/" + BOARD_TOPIC;
+var BOARD_TTL_H = 12;
+
 function loadRank(){
   try{
     var v = JSON.parse(window.localStorage.getItem(RANK_KEY) || "[]");
     return Array.isArray(v) ? v : [];
   }catch(e){ return []; }
 }
+function newId(){
+  return Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 7);
+}
 function saveRank(g, acc){
+  var rec = {
+    id: newId(), name: g.name, score: g.score, correct: g.correct, total: g.qs.length, acc: acc,
+    time: g.used, mode: MODES[g.mode], level: LEVELS[g.level].name,
+    timed: g.timed ? 1 : 0, ts: Date.now(),
+    date: new Date().toLocaleDateString("zh-CN", { month: "2-digit", day: "2-digit" })
+  };
   try{
     var list = loadRank();
-    list.push({
-      name: g.name, score: g.score, correct: g.correct, total: g.qs.length, acc: acc,
-      time: g.used, mode: MODES[g.mode], level: LEVELS[g.level].name,
-      timed: g.timed ? 1 : 0,
-      date: new Date().toLocaleDateString("zh-CN", { month: "2-digit", day: "2-digit" })
-    });
-    list.sort(function(a, b){ return (b.score - a.score) || (a.time - b.time) || (b.acc - a.acc); });
+    list.push(rec);
+    list.sort(function(a, b){ return (b.score - a.score) || (a.time - b.time); });
     window.localStorage.setItem(RANK_KEY, JSON.stringify(list.slice(0, 50)));
   }catch(e){ /* 隐私模式 / 存储已满：静默失败，不影响比赛 */ }
+  return rec;
 }
 function esc(s){
   return String(s).replace(/[&<>"]/g, function(c){
     return { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c];
   });
 }
-function renderRanking(){
-  var list = loadRank();
+
+/* 交卷后把成绩推给共享榜单；失败静默，绝不影响比赛流程 */
+function pushScore(rec){
+  if(!rec || !window.fetch) return;
+  try{
+    fetch(BOARD_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=UTF-8" },
+      body: JSON.stringify(rec)
+    }).catch(function(){});
+  }catch(e){}
+}
+
+/* 拉取共享榜单；(records|null) —— null 表示连不上 */
+function pullScores(cb){
+  if(!window.fetch){ cb(null); return; }
+  var ctrl = window.AbortController ? new AbortController() : null;
+  var timer = setTimeout(function(){ if(ctrl){ try{ ctrl.abort(); }catch(e){} } }, 8000);
+  fetch(BOARD_URL + "/json?poll=1&since=" + BOARD_TTL_H + "h", {
+    cache: "no-store", signal: ctrl ? ctrl.signal : undefined
+  }).then(function(r){
+    return r.text();
+  }).then(function(txt){
+    clearTimeout(timer);
+    var out = [], lines = String(txt).split("\n"), i, ln, o, rec;
+    for(i = 0; i < lines.length; i++){
+      ln = lines[i].trim();
+      if(!ln) continue;
+      try{
+        o = JSON.parse(ln);
+        if(!o || !o.message) continue;
+        rec = JSON.parse(o.message);
+        if(!rec || !rec.name || typeof rec.score !== "number") continue;
+        if(!rec.id) rec.id = o.id;
+        if(!rec.ts) rec.ts = (o.time || 0) * 1000;
+        if(!rec.date) rec.date = new Date(rec.ts).toLocaleDateString("zh-CN", { month: "2-digit", day: "2-digit" });
+        out.push(rec);
+      }catch(e){}
+    }
+    cb(out);
+  }).catch(function(){
+    clearTimeout(timer);
+    cb(null);
+  });
+}
+
+/* 本机 + 共享合并，按 id 去重，同分取用时短 */
+function mergeBoard(local, remote){
+  var seen = {}, out = [];
+  function add(r){
+    if(!r || !r.name || typeof r.score !== "number") return;
+    var key = r.id || (r.name + "|" + r.score + "|" + r.time + "|" + (r.ts || ""));
+    if(seen[key]) return;
+    seen[key] = 1;
+    out.push(r);
+  }
+  (local || []).forEach(add);
+  (remote || []).forEach(add);
+  out.sort(function(a, b){
+    return (b.score - a.score) || (a.time - b.time) || ((a.ts || 0) - (b.ts || 0));
+  });
+  return out;
+}
+
+var boardTimer = null, boardBusy = false;
+
+function setBoardStatus(state, count){
+  var el = $("#boardStatus");
+  if(!el) return;
+  if(state === "loading"){
+    el.className = "board-status";
+    el.textContent = "正在连接共享榜单…";
+  }else if(state === "online"){
+    el.className = "board-status ok";
+    el.textContent = "共享榜单已连接 · 最近 " + BOARD_TTL_H + " 小时共 " + count + " 条成绩";
+  }else if(state === "offline"){
+    el.className = "board-status bad";
+    el.textContent = "连不上共享榜单（网络受限），当前只显示本机记录";
+  }else{
+    el.className = "board-status";
+    el.textContent = "";
+  }
+}
+
+function renderRankingRows(list){
   var empty = $("#rankEmpty"), lw = $("#rankList"), bw = $("#rankBars");
   if(!list.length){
     empty.style.display = "block";
@@ -1707,14 +1813,14 @@ function renderRanking(){
     return;
   }
   empty.style.display = "none";
-  lw.innerHTML = list.map(function(r, i){
+  lw.innerHTML = list.slice(0, 30).map(function(r, i){
     var top = i < 3 ? " top" : "";
     var noCls = i === 0 ? "r1" : (i === 1 ? "r2" : (i === 2 ? "r3" : ""));
     return '<div class="rank-row' + top + '">' +
       '<div class="rank-no ' + noCls + '">' + (i + 1) + '</div>' +
       '<div class="rank-info"><div class="rank-name">' + esc(r.name) + '</div>' +
-      '<div class="rank-meta">' + esc(r.mode) + ' · ' + esc(r.level) + ' · 答对 ' + r.correct + '/' + r.total +
-      ' · 用时 ' + r.time + 's · ' + esc(r.date) + '</div></div>' +
+      '<div class="rank-meta">' + esc(r.mode || "") + ' · ' + esc(r.level || "") +
+      ' · 答对 ' + r.correct + '/' + r.total + ' · 用时 ' + r.time + 's · ' + esc(r.date || "") + '</div></div>' +
       '<div class="rank-score"><div class="s">' + r.score + '</div><div class="d">分</div></div></div>';
   }).join("");
 
@@ -1727,13 +1833,48 @@ function renderRanking(){
         '<span class="vl">' + r.score + '</span></div>';
     }).join("");
 }
+
+function renderRanking(){
+  var local = loadRank();
+  renderRankingRows(mergeBoard(local, []));
+  setBoardStatus("loading");
+  pullScores(function(remote){
+    if(remote === null){
+      setBoardStatus("offline");
+      renderRankingRows(mergeBoard(local, []));
+    }else{
+      setBoardStatus("online", remote.length);
+      renderRankingRows(mergeBoard(local, remote));
+    }
+  });
+}
+
+/* 停在排行榜页时每 8 秒自动刷新 */
+function startBoardRefresh(){
+  stopBoardRefresh();
+  boardTimer = setInterval(function(){
+    if(!isView("ranking")){ stopBoardRefresh(); return; }
+    if(boardBusy) return;
+    boardBusy = true;
+    pullScores(function(remote){
+      boardBusy = false;
+      if(remote === null){ setBoardStatus("offline"); return; }
+      setBoardStatus("online", remote.length);
+      renderRankingRows(mergeBoard(loadRank(), remote));
+    });
+  }, 8000);
+}
+function stopBoardRefresh(){
+  if(boardTimer){ clearInterval(boardTimer); boardTimer = null; }
+}
+
+$("#btnRefreshRank").addEventListener("click", function(){ renderRanking(); });
 $("#btnClearRank").addEventListener("click", function(){
-  if(window.confirm("确定清空全部排行榜记录？")){
+  if(window.confirm("清空「本机」的比赛记录？（共享榜单由服务器保留 12 小时，这里清不掉）")){
     try{ window.localStorage.removeItem(RANK_KEY); }catch(e){}
     renderRanking();
   }
 });
-
 /* ---------------------------------------------------------------- 对照表 */
 function renderFormula(){
   var host = $("#ftable");
@@ -1979,4 +2120,3 @@ document.addEventListener("keydown", function(e){
 </script>
 </body>
 </html>
-
