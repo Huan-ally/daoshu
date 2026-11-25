@@ -1094,9 +1094,9 @@ TEMPLATES.push({ level:"basic", kind:"concept", make:function(){
 
 /* ---------------------------------------------------------------- 难度 / 方向 */
 var LEVELS = {
-  basic:    { name:"基础", secs:25 },
-  advanced: { name:"进阶", secs:35 },
-  all:      { name:"综合", secs:30 }
+  basic:    { name:"基础", secs:20 },
+  advanced: { name:"进阶", secs:30 },
+  all:      { name:"混合", secs:35 }
 };
 var MODES = { deriv:"求导", integ:"积分", both:"双向", concept:"概念" };
 
@@ -1435,7 +1435,7 @@ function tick(){
   G.tAcc += step;
   updateUsed();
   if(G.timed && !G.answered){
-    G.qAcc += step;
+    G.qAcc += step / 1000;            /* 毫秒 → 秒，和 qLimit 保持同一单位 */
     setTimeLeft(G.qLimit - G.qAcc);
     if(G.qAcc >= G.qLimit) onTimeout();
   }
