@@ -224,6 +224,7 @@ input.shake{animation:shake .4s ease;border-color:var(--danger)!important}
 .board-status{font-size:12.5px;color:var(--faint);margin:-2px 0 14px;line-height:1.6;min-height:18px}
 .board-status.ok{color:var(--teal)}
 .board-status.bad{color:var(--danger)}
+.rank-more{font-size:12.5px;color:var(--faint);text-align:center;padding:12px 0 2px}
 .rank-empty{text-align:center;color:var(--faint);padding:50px 0}
 .rank-list{display:grid;gap:10px}
 .rank-row{display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:14px;background:var(--surface);
@@ -1401,7 +1402,7 @@ function startGame(){
     score: 0, combo: 0, correct: 0, wrong: 0,
     answered: false, lastPick: -1,
     tAcc: 0, tLast: 0, qAcc: 0, qLimit: LEVELS[cfg.level].secs,
-    clock: null, log: [], used: 0
+    clock: null, log: [], used: 0, done: false
   };
   go("game");
   renderQuestion();
@@ -1595,7 +1596,7 @@ function onTimeout(){
 }
 
 function nextQuestion(){
-  if(!G || !G.answered) return;
+  if(!G || !G.answered || G.done) return;
   G.idx += 1;
   if(G.idx >= G.qs.length){ finishGame(); return; }
   renderQuestion();
@@ -1665,6 +1666,8 @@ function renderWrongList(){
 }
 
 function finishGame(){
+  if(!G || G.done) return;          /* 幂等：连点「出成绩」或按回车两次也只结算一次 */
+  G.done = true;
   stopClock();
   var total = G.qs.length;
   var used = Math.max(1, Math.round(G.tAcc / 1000));
@@ -1687,7 +1690,7 @@ function finishGame(){
    ntfy 免费频道只保留 12 小时，所以榜单天然是"当天/当场"的。
 --------------------------------------------------------------------------- */
 var RANK_KEY = "dj_rank_v1";
-var BOARD_TOPIC = "daoshu-hj8f3c2a9k3";       /* 换一个后缀 = 换一块白板 */
+var BOARD_TOPIC = "daoshu-4f22d58046";       /* 换一个后缀 = 换一块白板 */
 var BOARD_URL = "https://ntfy.sh/" + BOARD_TOPIC;
 var BOARD_TTL_H = 12;
 
@@ -1823,6 +1826,10 @@ function renderRankingRows(list){
       ' · 答对 ' + r.correct + '/' + r.total + ' · 用时 ' + r.time + 's · ' + esc(r.date || "") + '</div></div>' +
       '<div class="rank-score"><div class="s">' + r.score + '</div><div class="d">分</div></div></div>';
   }).join("");
+
+  if(list.length > 30){
+    lw.innerHTML += '<div class="rank-more">…… 还有 ' + (list.length - 30) + ' 条记录未显示（只列前 30 名）</div>';
+  }
 
   var max = Math.max.apply(null, list.map(function(r){ return r.score; }));
   bw.innerHTML = '<div class="rtitle">得分对比（前 10）</div>' +
