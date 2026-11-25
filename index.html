@@ -1,0 +1,1975 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b1220">
+<meta name="format-detection" content="telephone=no">
+<meta name="description" content="导数与不定积分公式对照练习：16 组公式随机出题、即时判分、错题回顾、在线排行。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="导数 · 积分公式竞赛">
+<meta property="og:description" content="16 组「导数 ⇄ 不定积分」对照公式，限时抢答 + 错题回顾，手机可直接玩。">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>导数 · 积分公式竞赛 | 对照表练习</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f172a'/%3E%3Ctext x='32' y='46' font-size='36' text-anchor='middle' fill='%234fd1c5' font-family='Georgia,serif'%3E%E2%88%AB%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fastly.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+<style>
+:root{
+  --bg:#0b1220; --bg2:#0e1729; --surface:#121c31; --surface2:#18233b;
+  --line:rgba(255,255,255,.07); --line-strong:rgba(255,255,255,.14);
+  --text:#e8eef9; --muted:#93a3bd; --faint:#64748b;
+  --accent:#ffb454; --accent-soft:rgba(255,180,84,.14);
+  --teal:#4fd1c5; --teal-soft:rgba(79,209,197,.14);
+  --danger:#ff6b6b; --danger-soft:rgba(255,107,107,.14);
+  --ok:#52d985; --ok-soft:rgba(82,217,133,.12);
+  --radius:16px;
+  --font-mono:"ui-monospace","SFMono-Regular","Cascadia Mono","JetBrains Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  background:var(--bg); color:var(--text); line-height:1.6;
+  min-height:100vh; -webkit-font-smoothing:antialiased;
+  background-image:
+    radial-gradient(1200px 600px at 85% -10%, rgba(79,209,197,.10), transparent 60%),
+    radial-gradient(900px 500px at -10% 20%, rgba(255,180,84,.08), transparent 60%);
+}
+.grid-bg{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size:34px 34px;
+  -webkit-mask-image:radial-gradient(120% 90% at 50% 0%, #000 30%, transparent 100%);
+  mask-image:radial-gradient(120% 90% at 50% 0%, #000 30%, transparent 100%);
+}
+.grain{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+}
+.wrap{position:relative;z-index:1;max-width:1040px;margin:0 auto;padding:0 20px 60px}
+a{color:var(--teal);text-decoration:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+/* 触摸设备：去掉点击高亮方框，禁用双击缩放带来的 300ms 延迟 */
+button,.opt,.ans-opt,.nav-link,.brand{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+/* clip 而不是 hidden：不产生滚动容器，避免与合成层叠加时把内容画丢 */
+body{overflow-x:clip}
+
+/* ===== 顶栏 ===== */
+header{position:relative;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:16px 0;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.2px;
+  background:none;border:none;color:inherit;font-family:inherit;font-size:16px;cursor:pointer;padding:4px 6px;border-radius:10px}
+.brand:hover{background:rgba(255,255,255,.04)}
+.brand .mark{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;
+  background:linear-gradient(135deg,#ffc46b,#ff9f43);color:#2b1e07;font-family:var(--font-mono);
+  font-size:19px;font-weight:700;flex:none;box-shadow:0 4px 14px rgba(255,159,67,.25)}
+.brand small{display:block;font-weight:500;color:var(--faint);font-size:11px;letter-spacing:.06em}
+nav{display:flex;gap:4px;align-items:center}
+.nav-link{background:none;border:none;color:var(--muted);font-size:14px;padding:8px 12px;border-radius:10px;cursor:pointer;font-family:inherit;transition:background .15s,color .15s}
+.nav-link:hover{color:var(--text);background:rgba(255,255,255,.05)}
+.nav-link.active{color:var(--text);background:var(--surface2)}
+.btn{padding:12px 22px;border-radius:12px;border:none;cursor:pointer;font-size:15px;font-weight:600;font-family:inherit;
+  transition:transform .12s ease, box-shadow .2s ease, background .2s}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:linear-gradient(135deg,#ffc46b,#ff9f43);color:#241a05;box-shadow:0 8px 24px rgba(255,159,67,.28)}
+.btn-primary:hover{box-shadow:0 10px 30px rgba(255,159,67,.4)}
+.btn-ghost{background:transparent;color:var(--text);border:1px solid var(--line-strong)}
+.btn-ghost:hover{background:rgba(255,255,255,.05)}
+.btn-teal{background:var(--teal-soft);color:var(--teal);border:1px solid rgba(79,209,197,.3)}
+.btn-teal:hover{background:rgba(79,209,197,.22)}
+.btn[disabled]{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+
+/* ===== Hero ===== */
+.hero{padding:46px 0 30px;text-align:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13px;letter-spacing:.08em;color:var(--teal);
+  border:1px solid rgba(79,209,197,.3);background:var(--teal-soft);padding:6px 14px;border-radius:999px;margin-bottom:18px}
+.hero h1{font-size:clamp(30px,6vw,52px);line-height:1.15;font-weight:800;letter-spacing:-.5px}
+.hero h1 .grad{background:linear-gradient(120deg,var(--accent),#ffd9a0);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.lead{max-width:640px;margin:16px auto 26px;color:var(--muted);font-size:17px;text-wrap:balance}
+.cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.cta-row .btn{padding:14px 28px;font-size:16px}
+
+/* ===== 积分可视化 ===== */
+.viz-wrap{position:relative;margin:32px auto 0;max-width:780px}
+.viz-card{position:relative;background:linear-gradient(180deg,var(--surface),#0f1830);border:1px solid var(--line-strong);
+  border-radius:var(--radius);padding:18px 18px 10px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.viz-label{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 4px 12px;flex-wrap:wrap}
+.viz-fn{font-family:var(--font-mono);font-size:14px;color:var(--teal-soft);color:var(--muted)}
+.viz-slope{font-family:var(--font-mono);font-size:13.5px;color:var(--muted)}
+.viz-slope b{color:var(--text)}
+canvas{width:100%;height:330px;display:block;border-radius:10px;background:rgba(0,0,0,.22)}
+.viz-cap{display:flex;justify-content:center;gap:22px;flex-wrap:wrap;padding:12px 4px 4px;font-size:13px;color:var(--faint)}
+.viz-cap span{display:inline-flex;align-items:center;gap:7px}
+.dot{width:11px;height:11px;border-radius:50%;display:inline-block}
+.legend-f{background:var(--accent)}
+.legend-t{background:var(--teal)}
+
+/* ===== 区块 ===== */
+.view{display:none;animation:fade .35s ease}
+.view.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.section-title{font-size:26px;font-weight:800;margin:8px 0 4px;letter-spacing:-.3px}
+.section-sub{color:var(--muted);margin-bottom:24px;font-size:15px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+
+/* ===== 玩法卡 ===== */
+.modes{display:grid;gap:16px}
+@media(min-width:820px){.modes{grid-template-columns:repeat(3,1fr)}}
+.mode{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px;transition:border-color .2s, transform .2s}
+.mode:hover{border-color:var(--line-strong);transform:translateY(-2px)}
+.mode .icon{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:19px;margin-bottom:12px;
+  background:var(--accent-soft);color:var(--accent);font-family:var(--font-mono)}
+.mode:nth-child(2) .icon{background:var(--teal-soft);color:var(--teal)}
+.mode:nth-child(3) .icon{background:rgba(255,107,107,.16);color:var(--danger)}
+.mode h3{font-size:17px;margin-bottom:6px}
+.mode p{color:var(--muted);font-size:14px}
+.mode .tag{display:inline-block;margin-top:12px;font-size:12px;color:var(--faint)}
+
+/* ===== 表单 ===== */
+.field{margin-bottom:20px}
+.field label{display:block;font-size:14px;color:var(--muted);margin-bottom:9px}
+.field label b{color:var(--text)}
+input[type=text]{width:100%;background:var(--bg2);border:1px solid var(--line-strong);color:var(--text);
+  padding:12px 14px;border-radius:12px;font-size:16px;font-family:inherit;outline:none;transition:border-color .15s}
+input[type=text]:focus{border-color:var(--accent)}
+input.shake{animation:shake .4s ease;border-color:var(--danger)!important}
+@keyframes shake{0%,100%{transform:none}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.opt-row{display:flex;flex-wrap:wrap;gap:10px}
+.opt{flex:1;min-width:88px;text-align:center;padding:12px 10px;border-radius:12px;cursor:pointer;
+  border:1px solid var(--line-strong);background:var(--bg2);color:var(--muted);font-size:14px;font-weight:600;
+  transition:all .15s;user-select:none}
+.opt:hover{border-color:var(--teal);color:var(--text)}
+.opt.sel{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.opt small{display:block;font-weight:400;color:var(--faint);font-size:12px;margin-top:2px}
+.pool-hint{font-size:12.5px;color:var(--faint);margin-top:10px;min-height:18px}
+.row-actions{display:flex;gap:12px;justify-content:flex-end;flex-wrap:wrap;margin-top:6px}
+
+/* ===== 答题 ===== */
+.hud{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.stat-chip{background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:8px 14px;font-size:14px;color:var(--muted)}
+.stat-chip b{color:var(--text);font-size:17px;font-family:var(--font-mono)}
+.stat-chip.hot b{color:var(--accent)}
+.stat-chip b.low{color:var(--danger)!important;animation:pulse .9s infinite}
+@keyframes pulse{50%{opacity:.45}}
+.hud .quit{margin-left:auto;font-size:13px;color:var(--faint)}
+.progress{height:6px;background:var(--surface2);border-radius:99px;overflow:hidden;margin-bottom:20px}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),#ffd9a0);border-radius:99px;transition:width .3s ease}
+.qcard{background:var(--surface);border:1px solid var(--line-strong);border-radius:var(--radius);padding:26px 22px;text-align:center;
+  margin-bottom:16px;box-shadow:0 16px 44px rgba(0,0,0,.3)}
+.qcard .qtag{font-size:12px;letter-spacing:.08em;color:var(--faint);margin-bottom:14px}
+.qcard .qexpr{font-size:clamp(21px,4.2vw,30px);color:var(--text);min-height:2.2em;
+  display:flex;align-items:center;justify-content:center;flex-wrap:wrap;max-width:100%;overflow-x:auto;overflow-y:hidden}
+.qcard .qexpr .katex-display{margin:.15em 0}
+.qcard .qask{font-size:14px;color:var(--muted);margin-top:10px}
+.opt-answers{display:grid;gap:11px}
+.ans-opt{width:100%;text-align:left;display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:13px;cursor:pointer;
+  border:1px solid var(--line-strong);background:var(--bg2);color:var(--text);font-family:inherit;font-size:16px;transition:all .15s}
+.ans-opt:hover:not(:disabled){border-color:var(--teal);background:var(--teal-soft)}
+.ans-opt:disabled{cursor:default}
+.ans-opt .idx{flex:none;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:var(--surface2);
+  color:var(--muted);font-family:var(--font-mono);font-size:13px;font-weight:700}
+.ans-opt .math{font-size:18px;min-width:0;overflow-wrap:anywhere;overflow-x:auto}
+.ans-opt .math.sm{font-size:15px}
+.ans-opt.correct{border-color:var(--ok);background:var(--ok-soft)}
+.ans-opt.correct .idx{background:var(--ok);color:#06281a}
+.ans-opt.wrong{border-color:var(--danger);background:var(--danger-soft)}
+.ans-opt.wrong .idx{background:var(--danger);color:#2a0a0a}
+.ans-opt.dim{opacity:.4}
+.feedback{border-radius:var(--radius);padding:16px 18px;margin-top:14px;display:none}
+.feedback.show{display:block;animation:fade .3s ease}
+.feedback.good{background:var(--ok-soft);border:1px solid rgba(82,217,133,.3)}
+.feedback.bad{background:var(--danger-soft);border:1px solid rgba(255,107,107,.3)}
+.feedback .fb-title{font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.feedback.good .fb-title{color:var(--ok)}
+.feedback.bad .fb-title{color:var(--danger)}
+.feedback .fb-explain{color:var(--muted);font-size:14.5px;overflow-x:auto;overflow-y:hidden}
+.feedback .fb-explain .katex{color:var(--text)}
+/* 解析里的 <em> 强调（不支持 HTML 注入，只认这个固定标记） */
+.fb-explain em, .fnote em, .wl-e em, .tipcard em{font-style:normal;font-weight:700;color:var(--accent)}
+.next-row{display:flex;justify-content:flex-end;margin-top:14px}
+
+/* ===== 结果 ===== */
+.result-hero{text-align:center;padding:14px 0 4px}
+.score-big{font-size:clamp(52px,10vw,84px);font-weight:800;font-family:var(--font-mono);color:var(--accent);line-height:1}
+.score-big small{font-size:22px;color:var(--faint);font-weight:600}
+.verdict{font-size:17px;color:var(--muted);margin-top:8px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:26px 0}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 10px;text-align:center}
+.stat .num{font-size:26px;font-weight:800;font-family:var(--font-mono)}
+.stat .num.good{color:var(--ok)}
+.stat .num.bad{color:var(--danger)}
+.stat .cap{font-size:12px;color:var(--faint);margin-top:2px}
+.result-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+
+/* 错题回顾 */
+#rWrongWrap{margin-top:4px}
+.wl-head{font-weight:700;margin-bottom:12px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.wl-sub{font-weight:400;font-size:12.5px;color:var(--faint)}
+.wl-item{border-top:1px solid var(--line);padding:12px 0;display:grid;gap:5px}
+.wl-item:first-child{border-top:none;padding-top:0}
+.wl-q{font-size:16px;color:var(--text);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.wl-a{font-size:14px;color:var(--muted);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.wl-a .katex{color:var(--ok)}
+.wl-e{font-size:13px;color:var(--faint);line-height:1.7;overflow-x:auto;overflow-y:hidden}
+.wl-e .katex{color:var(--muted)}
+.wl-empty{color:var(--ok);font-size:15px;padding:6px 0}
+.badge-bad{font-size:11px;color:var(--danger);border:1px solid rgba(255,107,107,.4);border-radius:6px;padding:0 6px}
+
+/* ===== 排行榜 ===== */
+.rank-toolbar{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.rank-empty{text-align:center;color:var(--faint);padding:50px 0}
+.rank-list{display:grid;gap:10px}
+.rank-row{display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:14px;background:var(--surface);
+  border:1px solid var(--line);border-radius:14px;padding:12px 16px}
+.rank-row.top{border-color:var(--accent);background:linear-gradient(180deg,var(--accent-soft),var(--surface))}
+.rank-no{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-family:var(--font-mono);
+  font-weight:800;background:var(--surface2);color:var(--muted);font-size:15px}
+.rank-row.top .rank-no{background:var(--accent);color:#241a05}
+.rank-row.top .rank-no.r2{background:#c9d6e6;color:#1c2636}
+.rank-row.top .rank-no.r3{background:#d29a6b;color:#2b1c0d}
+.rank-info{min-width:0}
+.rank-name{font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.rank-meta{font-size:12.5px;color:var(--faint)}
+.rank-score{text-align:right}
+.rank-score .s{font-family:var(--font-mono);font-weight:800;font-size:19px;color:var(--accent)}
+.rank-score .d{font-size:12px;color:var(--faint)}
+.rank-bars{margin-top:16px}
+.rank-bars .rtitle{font-size:13px;color:var(--faint);margin-bottom:8px}
+.rank-bars .rbar{display:grid;grid-template-columns:78px 1fr 52px;align-items:center;gap:10px;margin-bottom:9px;font-size:13px}
+.rank-bars .rbar .nm{color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rank-bars .track{height:16px;background:var(--surface2);border-radius:8px;overflow:hidden}
+.rank-bars .fill{height:100%;background:linear-gradient(90deg,var(--accent),#ffd9a0);border-radius:8px;min-width:2px;transition:width .5s cubic-bezier(.22,1,.36,1)}
+.rank-bars .vl{font-family:var(--font-mono);font-weight:700;color:var(--text);text-align:right}
+
+/* ===== 对照表 ===== */
+.fgh{font-size:15.5px;color:var(--accent);margin:26px 0 12px;display:flex;align-items:center;gap:9px}
+.fgh:first-of-type{margin-top:6px}
+.fgh::before{content:"";width:4px;height:15px;background:var(--accent);border-radius:2px}
+.fgrid{display:grid;gap:9px}
+.frow{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;
+  display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:12px}
+.frow .fl{color:var(--muted);font-size:15px;min-width:0;overflow-wrap:anywhere}
+@media(min-width:661px){.frow .fl{text-align:right}}
+.frow .fm{color:var(--faint);font-size:15px;text-align:center}
+.frow .fr{color:var(--text);font-size:15px;min-width:0;overflow-wrap:anywhere}
+.frow .fnote{grid-column:1/-1;font-size:12.5px;color:var(--faint);border-top:1px dashed rgba(255,255,255,.07);padding-top:8px;margin-top:2px}
+.frow .fnote .katex{color:var(--muted)}
+@media(max-width:660px){
+  .frow{grid-template-columns:1fr;gap:6px}
+  .frow .fm{text-align:left;font-size:12px}
+  .frow .fm::before{content:"对应 "}
+}
+.tipcard{margin-top:26px;background:linear-gradient(180deg,var(--teal-soft),transparent);border:1px solid rgba(79,209,197,.25);
+  border-radius:var(--radius);padding:18px 20px;font-size:14px;color:var(--muted)}
+.tipcard b{color:var(--teal)}
+.tipcard ul{margin:8px 0 0 18px;display:grid;gap:5px}
+
+/* ===== 兜底数学渲染（miniTeX）===== */
+.mt-frac{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;margin:0 .18em;font-size:.94em}
+.mt-frac .mt-num{padding:0 .3em;border-bottom:1.2px solid currentColor;line-height:1.25}
+.mt-frac .mt-den{padding:.06em .3em 0;line-height:1.25}
+.mt-sqrt{display:inline-flex;align-items:flex-start;margin:0 .1em}
+.mt-sqrt .mt-rad{font-size:1.05em;line-height:1.1}
+.mt-sqrt .mt-under{border-top:1.2px solid currentColor;padding:0 .18em;line-height:1.25}
+.mt-fn{font-style:normal;margin-right:.12em;margin-left:.06em}
+.mt-gr{font-style:normal}
+sup{font-size:.72em;vertical-align:super;line-height:0}
+sub{font-size:.72em;vertical-align:sub;line-height:0}
+
+/* ===== 页脚 ===== */
+footer{margin-top:46px;text-align:center;color:var(--faint);font-size:12.5px;line-height:1.9}
+footer b{color:var(--muted);font-weight:600}
+.fixlog{margin:14px auto 0;max-width:760px;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:0 16px}
+.fixlog summary{cursor:pointer;padding:11px 0;font-size:13px;color:var(--muted);list-style:none}
+.fixlog summary::-webkit-details-marker{display:none}
+.fixlog summary::before{content:"▸ ";color:var(--accent)}
+.fixlog[open] summary::before{content:"▾ "}
+.fixlog ol{margin:0 0 14px 18px;display:grid;gap:5px;font-size:12.5px;color:var(--faint)}
+/* ===== 手机端（≤560px）===== */
+@media(max-width:560px){
+  .wrap{padding:0 14px calc(40px + env(safe-area-inset-bottom,0px))}
+  header{padding:12px 0;gap:8px}
+  .brand{font-size:15px;padding:2px}
+  .brand .mark{width:30px;height:30px;font-size:17px;border-radius:9px}
+  .brand small{display:none}
+  .nav-link{font-size:13px;padding:7px 9px}
+  .hero{padding:26px 0 16px}
+  .eyebrow{font-size:11.5px;padding:5px 11px;margin-bottom:14px}
+  .hero p.lead{font-size:15px;margin:14px auto 20px}
+  .cta-row .btn{padding:13px 20px;font-size:15px}
+  .viz-wrap{margin-top:22px}
+  .viz-card{padding:12px 10px 6px}
+  canvas{height:250px}
+  .viz-label{padding:0 2px 8px;gap:4px}
+  .viz-fn,.viz-slope{font-size:11px}
+  .viz-cap{font-size:11px;gap:10px;padding:8px 2px 2px}
+  .modes{gap:12px}
+  .mode{padding:16px}
+  .mode .icon{width:36px;height:36px;font-size:16px;margin-bottom:8px}
+  .section-title{font-size:21px}
+  .section-sub{font-size:13.5px;margin-bottom:18px}
+  .card{padding:16px}
+  .field{margin-bottom:16px}
+  .opt{padding:10px 4px;font-size:13px;min-width:0}
+  .opt small{font-size:10.5px}
+  .hud{gap:6px;margin-bottom:10px}
+  .stat-chip{padding:5px 9px;font-size:12px;border-radius:10px}
+  .stat-chip b{font-size:14px}
+  .hud .quit{font-size:12px;padding:6px 8px}
+  .progress{margin-bottom:16px}
+  .qcard{padding:18px 12px}
+  .qcard .qtag{font-size:11px;margin-bottom:10px}
+  .qcard .qexpr{font-size:18px;min-height:0}
+  .qcard .qask{font-size:12.5px;margin-top:8px}
+  .opt-answers{gap:9px}
+  .ans-opt{padding:11px 10px;gap:9px}
+  .ans-opt .idx{width:25px;height:25px;font-size:11.5px;border-radius:7px}
+  .ans-opt .math{font-size:15.5px}
+  .ans-opt .math.sm{font-size:13.5px}
+  .feedback{padding:13px;border-radius:12px}
+  .fb-title{font-size:14.5px}
+  .fb-explain{font-size:13px}
+  .next-row button{width:100%}
+  .result-hero{padding:6px 0 2px}
+  .score-big{font-size:52px}
+  .verdict{font-size:14px;padding:0 4px}
+  .stats{gap:8px;margin:20px 0}
+  .stat{padding:12px 6px}
+  .stat .num{font-size:21px}
+  .stat .cap{font-size:11px}
+  .wl-head{font-size:14.5px}
+  .wl-q{font-size:14.5px}
+  .wl-a{font-size:12.5px}
+  .wl-e{font-size:12px}
+  .rank-toolbar{gap:8px}
+  .rank-row{grid-template-columns:32px 1fr auto;padding:10px 11px;gap:9px}
+  .rank-no{width:30px;height:30px;font-size:13px}
+  .rank-name{font-size:14px}
+  .rank-meta{font-size:11.5px}
+  .rank-score .s{font-size:17px}
+  .rank-bars .rbar{grid-template-columns:52px 1fr 34px;font-size:11.5px}
+  .frow{padding:10px 12px}
+  .frow .fl,.frow .fr{font-size:14px}
+  .fgh{font-size:14px;margin:20px 0 10px}
+  .tipcard{padding:14px;font-size:13px}
+  .tipcard ul{margin-left:16px}
+  footer{font-size:11px;margin-top:34px}
+  .fixlog{padding:0 12px}
+  .fixlog ol{font-size:11.5px}
+  /* 长公式宁可局部横滚，也不要撑破整页 */
+  .qexpr,.ans-opt .math,.wl-q,.wl-a{max-width:100%;overflow-x:auto;overflow-y:hidden}
+  .qexpr .katex-display,.ans-opt .math .katex-display{margin:.1em 0}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.001s!important;transition-duration:.001s!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+<div class="grid-bg" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<div class="wrap">
+  <header>
+    <button class="brand" data-nav="home" type="button" aria-label="返回首页">
+      <span class="mark" aria-hidden="true">∫</span>
+      <span>导数 · 积分公式竞赛<small>DERIVATIVE ⇄ ANTIDERIVATIVE · 高数练习</small></span>
+    </button>
+    <nav>
+      <button class="nav-link" data-nav="ranking" type="button">排行榜</button>
+      <button class="nav-link" data-nav="formula" type="button">对照表</button>
+    </nav>
+  </header>
+
+  <!-- ========== 首页 ========== -->
+  <section id="view-home" class="view active">
+    <div class="hero">
+      <span class="eyebrow">导数公式 ⇄ 不定积分公式 · 备赛练习</span>
+      <h1>导数与积分，<span class="grad">互为逆运算</span></h1>
+      <p class="lead">以 16 组「导数公式 / 对应的不定积分公式」为题库：随机出题、即时判分、实时排行。
+        看清一个反例，比背十行公式有用——把「指数加 1」和「指数减 1」刻进肌肉记忆。</p>
+      <div class="cta-row">
+        <button class="btn btn-primary" data-nav="setup" type="button">开始比赛</button>
+        <button class="btn btn-ghost" data-nav="formula" type="button">查看对照表</button>
+      </div>
+    </div>
+
+    <div class="viz-wrap">
+      <div class="viz-card">
+        <div class="viz-label">
+          <span class="viz-fn">上：f(x) = cos x　·　下：F(x) = sin x + C</span>
+          <span class="viz-slope">在 <b id="vx">x = 0.0</b>：f = <b id="vf">1.00</b>，F′ = <b id="vs">1.00</b></span>
+        </div>
+        <canvas id="viz" aria-label="不定积分是一族上下平移的曲线：上图曲线的高度，等于下图曲线同一点的斜率"></canvas>
+        <div class="viz-cap">
+          <span><i class="dot legend-f"></i>f(x) = cos x</span>
+          <span><i class="dot legend-t"></i>F(x) = sin x + C（一族原函数）</span>
+          <span>每条曲线的斜率都等于上面那条曲线的高度</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="modes" style="margin-top:38px">
+      <div class="mode">
+        <div class="icon">d/dx</div>
+        <h3>求导方向</h3>
+        <p>给出 f(x)，求 f′(x)。把对照表左栏当公式用，重点考负号与系数。</p>
+        <span class="tag">适合先熟悉左栏</span>
+      </div>
+      <div class="mode">
+        <div class="icon">∫</div>
+        <h3>积分方向</h3>
+        <p>给出 f(x)，求 ∫f(x)dx。右栏才是真正难记的一半，别忘了 +C。</p>
+        <span class="tag">主攻方向</span>
+      </div>
+      <div class="mode">
+        <div class="icon">⇄</div>
+        <h3>双向混合</h3>
+        <p>同一组公式来回考：这一题求导、下一题积分，专门治「方向混淆」。</p>
+        <span class="tag">适合正式比拼</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 设置 ========== -->
+  <section id="view-setup" class="view">
+    <h2 class="section-title">比赛设置</h2>
+    <p class="section-sub">填选手信息，选方向、难度、题量与计时，然后开赛。</p>
+    <div class="card">
+      <div class="field">
+        <label for="pname">选手姓名 <b>*</b></label>
+        <input type="text" id="pname" placeholder="请输入姓名，将用于排行榜" maxlength="12" autocomplete="off">
+      </div>
+      <div class="field">
+        <label>出题方向</label>
+        <div class="opt-row" id="modeOpts">
+          <div class="opt" data-val="deriv" tabindex="0" role="button">求导<small>已知 f，求 f′</small></div>
+          <div class="opt" data-val="integ" tabindex="0" role="button">积分<small>已知 f，求 ∫f dx</small></div>
+          <div class="opt sel" data-val="both" tabindex="0" role="button">双向混合<small>对照表来回考</small></div>
+        </div>
+      </div>
+      <div class="field">
+        <label>难度</label>
+        <div class="opt-row" id="levelOpts">
+          <div class="opt" data-val="basic" tabindex="0" role="button">基础<small>幂·指·对·正余弦</small></div>
+          <div class="opt" data-val="advanced" tabindex="0" role="button">进阶<small>tan·sec·反三角·凑</small></div>
+          <div class="opt sel" data-val="all" tabindex="0" role="button">综合<small>整张表混合</small></div>
+        </div>
+      </div>
+      <div class="field">
+        <label>题量</label>
+        <div class="opt-row" id="countOpts">
+          <div class="opt" data-val="10" tabindex="0" role="button">10 题<small>快速热身</small></div>
+          <div class="opt sel" data-val="15" tabindex="0" role="button">15 题<small>标准赛制</small></div>
+          <div class="opt" data-val="20" tabindex="0" role="button">20 题<small>耐力挑战</small></div>
+        </div>
+      </div>
+      <div class="field">
+        <label>计时</label>
+        <div class="opt-row" id="timeOpts">
+          <div class="opt sel" data-val="1" tabindex="0" role="button">限时<small>每题超时计错</small></div>
+          <div class="opt" data-val="0" tabindex="0" role="button">不限时<small>从容作答</small></div>
+        </div>
+      </div>
+      <div class="pool-hint" id="poolHint"></div>
+      <div class="row-actions">
+        <button class="btn btn-ghost" data-nav="home" type="button">返回</button>
+        <button class="btn btn-primary" id="btnStart" type="button">开始比赛</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 答题 ========== -->
+  <section id="view-game" class="view">
+    <div class="hud">
+      <span class="stat-chip">题目 <b id="gIdx">1</b>/<span id="gTotal">15</span></span>
+      <span class="stat-chip hot">得分 <b id="gScore">0</b></span>
+      <span class="stat-chip">连对 <b id="gCombo">0</b></span>
+      <span class="stat-chip" id="gTimeWrap">剩余 <b id="gTime">25</b>s</span>
+      <span class="stat-chip">用时 <b id="gUsed">0</b>s</span>
+      <button class="nav-link quit" id="btnQuit" type="button">退出</button>
+    </div>
+    <div class="progress"><i id="gBar"></i></div>
+
+    <div class="qcard">
+      <div class="qtag" id="gLevelTag">双向 · 综合 · 第 1 题</div>
+      <div class="qexpr" id="gExpr"></div>
+      <div class="qask" id="gAsk"></div>
+    </div>
+
+    <div class="opt-answers" id="gOptions"></div>
+
+    <div class="feedback" id="gFeedback">
+      <div class="fb-title" id="gFbTitle"></div>
+      <div class="fb-explain" id="gFbExplain"></div>
+      <div class="next-row">
+        <button class="btn btn-primary" id="btnNext" style="display:none" type="button">下一题 →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 结果 ========== -->
+  <section id="view-result" class="view">
+    <div class="result-hero">
+      <div class="score-big" id="rScore">0<small> 分</small></div>
+      <div class="verdict" id="rVerdict"></div>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="num good" id="rCorrect">0</div><div class="cap">答对</div></div>
+      <div class="stat"><div class="num bad" id="rWrong">0</div><div class="cap">答错 / 超时</div></div>
+      <div class="stat"><div class="num" id="rTime">0s</div><div class="cap">总用时</div></div>
+    </div>
+    <div class="card" id="rWrongWrap">
+      <div class="wl-head">错题回顾<span class="wl-sub">对照解析，回表格里找那一行</span></div>
+      <div id="rWrongList"></div>
+    </div>
+    <div class="result-actions">
+      <button class="btn btn-primary" id="btnReplay" type="button">再比一次</button>
+      <button class="btn btn-ghost" id="btnNextPlayer" type="button">下一位选手</button>
+      <button class="btn btn-teal" data-nav="formula" type="button">看对照表</button>
+      <button class="btn btn-ghost" data-nav="ranking" type="button">排行榜</button>
+    </div>
+  </section>
+
+  <!-- ========== 排行榜 ========== -->
+  <section id="view-ranking" class="view">
+    <div class="rank-toolbar">
+      <div>
+        <h2 class="section-title" style="margin-bottom:2px">排行榜</h2>
+        <p class="section-sub" style="margin-bottom:0">按得分排序，同分取用时更短者。成绩只存在本机浏览器里。</p>
+      </div>
+      <button class="btn btn-ghost" id="btnClearRank" type="button">清空记录</button>
+    </div>
+    <div class="rank-empty" id="rankEmpty" style="display:none">还没有比赛记录，先去比一场吧。</div>
+    <div class="rank-list" id="rankList"></div>
+    <div class="rank-bars" id="rankBars"></div>
+  </section>
+
+  <!-- ========== 对照表 ========== -->
+  <section id="view-formula" class="view">
+    <h2 class="section-title">导数 ⇄ 不定积分 对照表</h2>
+    <p class="section-sub">16 组基本公式。左栏是「谁的导数是它」，右栏就是它的不定积分——两栏其实是同一件事的两种说法。</p>
+    <div id="ftable"></div>
+    <div class="tipcard">
+      <b>三条容易翻车的规律</b>
+      <ul id="tipList">
+        <li>幂函数：求导是指数减 1，积分是指数加 1 再除以新指数；$\mu=-1$ 时没有幂函数原函数，只有 $\ln|x|$。</li>
+        <li>指数函数：$(a^{x})'=a^{x}\ln a$，积分反过来就是<em>除以</em> $\ln a$——很多人会顺手乘上去。</li>
+        <li>三角：求导一轮是 $\sin\to\cos\to-\sin\to-\cos$，负号跟着走；积分则把这一轮倒着读。</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    导数 · 积分公式竞赛 · 单文件离线可用 · 公式引擎 <b id="engineTag">…</b><br>
+    题目由程序实时生成，答案可逐题数值复算验证
+    <details class="fixlog">
+      <summary>本版修掉的 bug（相对上一版「求导公式竞赛.html」）</summary>
+      <ol>
+        <li>动画曾改写全局 <code>requestAnimationFrame</code>，滚出视口一次就永久停住；现改用 IntersectionObserver + 可见性判断，只暂停、不销毁。</li>
+        <li>参数取 1 时，正确答案与某个干扰项会生成<em>完全相同</em>的 LaTeX（如 $e^{1x}$、$-\\sin(1x)$），等于两个选项都对；现强制四项去重，重复就重抽。</li>
+        <li>出题只从模板池<em>前 N 个</em>里取，后面的模板永远抽不到；现改为整池多轮洗牌。</li>
+        <li>离开答题页 / 结束比赛时定时器不清理，留下僵尸计时器，重开一局后两套计时互相打架；现所有路径统一 clearInterval。</li>
+        <li>倒计时靠每秒自减，切到后台被节流后「跳秒」甚至白送时间；现统一用时间戳累加，切后台自动暂停。</li>
+        <li>「用时」只在换题时刷新一次；现为 200ms 一跳的秒表。</li>
+        <li>下一题的剩余秒数颜色不会复原，一直红着；现每题重置。</li>
+        <li>得分与连对加成在显示处和计分处各算一遍，容易对不上；现只算一次。</li>
+        <li><code>localStorage</code> 写入未兜底，隐私模式/存储满时抛异常会打断结算；现全部 try/catch。</li>
+        <li>新增：错题回顾、键盘作答（1–4 / A–D）、离线兜底公式渲染、离开页面自动暂停。</li>
+      </ol>
+    </details>
+  </footer>
+</div>
+
+<script src="https://fastly.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script>
+"use strict";
+/* ============================================================================
+   导数 · 积分公式竞赛  v1.0
+   知识要点：《导数公式 ⇄ 对应的不定积分公式》对照表（16 组）
+   设计约束：单文件、零安装、纯前端；公式走 KaTeX CDN，取不到时用内置 miniTeX 兜底。
+   下面 @engine 区是纯函数（不碰 DOM），可以单独用 node 做数值自测。
+   ========================================================================== */
+
+/* @engine:start */
+/* ---------------------------------------------------------------- 随机工具 */
+function ri(a, b){ return Math.floor(Math.random() * (b - a + 1)) + a; }
+function pick(arr){ return arr[Math.floor(Math.random() * arr.length)]; }
+function shuffle(arr){
+  var a = arr.slice(), i, j, t;
+  for(i = a.length - 1; i > 0; i--){ j = Math.floor(Math.random() * (i + 1)); t = a[i]; a[i] = a[j]; a[j] = t; }
+  return a;
+}
+
+/* ---------------------------------------------------------------- LaTeX 拼装 */
+/* c·x^e，系数 ±1 与指数 0/1 都处理掉 */
+function term(c, e){
+  var abs = Math.abs(c);
+  var head = (abs === 1 && e > 0) ? "" : String(abs);
+  var body = (e === 0) ? "" : (e === 1 ? "x" : "x^{" + e + "}");
+  var s = (e === 0 && head === "") ? "1" : head + body;
+  return c < 0 ? "-" + s : s;
+}
+/* c·(字符串)，系数 ±1 省略 */
+function mono(c, s){
+  var abs = Math.abs(c);
+  var h = (abs === 1) ? "" : String(abs);
+  var t = h + s;
+  return c < 0 ? "-" + t : t;
+}
+/* kx 的规范写法：k=1 时写 x，别出现 cos(1x) 这种东西 */
+function ax(k){ return k === 1 ? "x" : k + "x"; }
+/* x^e 的规范写法：e=1 写 x，e=0 写 1，别出现 x^{1} */
+function xp(e){ return e === 1 ? "x" : (e === 0 ? "1" : "x^{" + e + "}"); }
+function fr(a, b){ return "\\frac{" + a + "}{" + b + "}"; }
+
+/* ---------------------------------------------------------------- miniTeX
+   KaTeX 不可用时的兜底渲染器。只支持本题库用到的 LaTeX 子集，
+   遇到不认识的控制序列会抛错，调用方再退回纯文本。
+   —— 顺带充当 LaTeX 语法检察员：能过它，KaTeX 基本也能过。
+--------------------------------------------------------------------------- */
+var MT_FUNCS = ["arcsin", "arccos", "arctan", "sin", "cos", "tan", "sec", "csc", "cot", "ln"];
+var MT_OPS = { "ne":"≠", "neq":"≠", "pm":"±", "cdot":"·", "int":"∫", "quad":"\u2003",
+               "to":"→", "rightarrow":"→", "Rightarrow":"⇒",
+               ";":" ", ",":"", "!":"", " ":" ", "left":"", "right":"", "displaystyle":"" };
+var MT_GREEK = { "mu":"μ" };
+
+function miniTeX(src){
+  var s = String(src), i = 0;
+
+  function esc(c){
+    return c.replace(/[&<>]/g, function(m){ return {"&":"&amp;","<":"&lt;",">":"&gt;"}[m]; });
+  }
+  function readGroup(){
+    if(s[i] === "{"){ i++; var h = readSeq("}"); if(s[i] === "}") i++; return h; }
+    return readAtom();
+  }
+  function readAtom(){
+    var c = s[i];
+    if(c === "\\") return readCmd();
+    if(c === "{"){ i++; var h = readSeq("}"); if(s[i] === "}") i++; return h; }
+    i++;
+    if(c === " ") return " ";
+    if(/[a-zA-Z]/.test(c)) return "<i>" + c + "</i>";
+    return esc(c);
+  }
+  function readCmd(){
+    i++;                                   /* 吃掉反斜杠 */
+    var name = "";
+    if(/[a-zA-Z]/.test(s[i] || "")){ while(i < s.length && /[a-zA-Z]/.test(s[i])){ name += s[i]; i++; } }
+    else { name = s[i] || ""; i++; }
+    if(name === "frac"){
+      var a = readGroup(), b = readGroup();
+      return '<span class="mt-frac"><span class="mt-num">' + a + '</span><span class="mt-den">' + b + '</span></span>';
+    }
+    if(name === "sqrt"){
+      return '<span class="mt-sqrt"><span class="mt-rad">√</span><span class="mt-under">' + readGroup() + '</span></span>';
+    }
+    if(MT_FUNCS.indexOf(name) >= 0) return '<span class="mt-fn">' + name + '</span>';
+    if(MT_GREEK[name]) return '<span class="mt-gr">' + MT_GREEK[name] + '</span>';
+    if(MT_OPS.hasOwnProperty(name)) return esc(MT_OPS[name]);
+    throw new Error("miniTeX: 不支持的命令 \\" + name);
+  }
+  function readSeq(stop){
+    var h = "";
+    while(i < s.length){
+      var c = s[i];
+      if(stop && c === stop) break;
+      if(c === "\\"){ h += readCmd(); continue; }
+      if(c === "^" || c === "_"){
+        i++;
+        var arg = readGroup();
+        h += (c === "^") ? "<sup>" + arg + "</sup>" : "<sub>" + arg + "</sub>";
+        continue;
+      }
+      if(c === "{"){ i++; h += readSeq("}"); if(s[i] === "}") i++; continue; }
+      if(c === "}") break;                 /* 多余的右括号忽略 */
+      i++;
+      if(c === " ") h += " ";
+      else if(/[a-zA-Z]/.test(c)) h += "<i>" + c + "</i>";
+      else h += esc(c);
+    }
+    return h;
+  }
+  var out = readSeq(null);
+  if(out.indexOf("{") >= 0 || out.indexOf("}") >= 0) throw new Error("miniTeX: 花括号不配对");
+  return out;
+}
+
+/* ---------------------------------------------------------------- 题库
+   每条模板都返回 {expr, exprFn, ans, ansFn, opts[3], explain}
+   约定：kind='deriv' 时 ans 是 expr 的导数；kind='integ' 时 ans 是 expr 的原函数（+C）。
+   两个方向的正确性都能用「数值求导」统一验证。
+--------------------------------------------------------------------------- */
+var TEMPLATES = [];
+
+/* —— 幂函数 —— */
+/* (x^n)' = n·x^(n-1) */
+TEMPLATES.push({ level:"basic", kind:"deriv", make:function(){
+  var n = ri(2, 6);
+  return {
+    expr: "x^{" + n + "}",
+    exprFn: function(x){ return Math.pow(x, n); },
+    ans: term(n, n - 1),
+    ansFn: function(x){ return n * Math.pow(x, n - 1); },
+    opts: [term(1, n - 1), term(n, n), term(n - 1, n)],
+    explain: "幂函数求导：指数 " + n + " 提到前面当系数，指数再减 1，得 $" + term(n, n - 1) + "$。"
+  };
+}});
+
+/* ∫x^μ dx = x^(μ+1)/(μ+1) + C */
+TEMPLATES.push({ level:"basic", kind:"integ", make:function(){
+  var m = ri(1, 5), up = xp(m + 1);
+  var forgotC = (m === 1) ? xp(m + 1) : fr(xp(m + 1), m + 1);   /* 忘了写 +C 的那个 */
+  var forgotOne = (m === 1) ? "x" : fr(xp(m), m);               /* 忘了指数加 1 的那个 */
+  return {
+    expr: xp(m),
+    exprFn: function(x){ return Math.pow(x, m); },
+    ans: fr(up, m + 1) + "+C",
+    ansFn: function(x){ return Math.pow(x, m + 1) / (m + 1); },
+    opts: [xp(m + 1) + "+C", forgotC, forgotOne + "+C"],
+    explain: "幂函数积分：指数加 1，再除以新指数（$\\mu\\ne-1$），最后补上任意常数 $C$。$\\int " + xp(m) + "\\,dx=" + fr(up, m + 1) + "+C$。"
+  };
+}});
+
+/* (kx)' = k */
+TEMPLATES.push({ level:"basic", kind:"deriv", make:function(){
+  var k = ri(2, 9);
+  return {
+    expr: ax(k),
+    exprFn: function(x){ return k * x; },
+    ans: String(k),
+    ansFn: function(){ return k; },
+    opts: ["x", ax(k), "0"],
+    explain: "常数倍法则：$(kx)'=k\\cdot x'=k$。一次函数的导数就是它的斜率 " + k + "。"
+  };
+}});
+
+/* ∫k dx = kx + C */
+TEMPLATES.push({ level:"basic", kind:"integ", make:function(){
+  var k = ri(2, 9);
+  return {
+    expr: String(k),
+    exprFn: function(){ return k; },
+    ans: ax(k) + "+C",
+    ansFn: function(x){ return k * x; },
+    opts: [ax(k), "C", fr("x^{2}", 2) + "+C"],
+    explain: "常数的原函数是一次函数：$\\int " + k + "\\,dx=" + k + "x+C$。系数 " + k + " 不能丢，$C$ 也不能丢。"
+  };
+}});
+
+/* —— 指数函数 —— */
+/* (e^x)' = e^x */
+TEMPLATES.push({ level:"basic", kind:"deriv", make:function(){
+  return {
+    expr: "e^{x}",
+    exprFn: Math.exp,
+    ans: "e^{x}",
+    ansFn: Math.exp,
+    opts: ["xe^{x-1}", "e^{x+1}", "e^{x}\\ln x"],
+    explain: "$e^{x}$ 是唯一求导后完全不变的函数：$(e^{x})'=e^{x}$。它<em>不是</em>幂函数，不能写成 $xe^{x-1}$。"
+  };
+}});
+
+/* ∫e^x dx = e^x + C */
+TEMPLATES.push({ level:"basic", kind:"integ", make:function(){
+  return {
+    expr: "e^{x}",
+    exprFn: Math.exp,
+    ans: "e^{x}+C",
+    ansFn: Math.exp,
+    opts: ["xe^{x-1}+C", fr("e^{x+1}", "x+1") + "+C", "e^{x+1}+C"],
+    explain: "$\\int e^{x}\\,dx=e^{x}+C$。它是幂函数公式的「例外」：套 $\\frac{x^{n+1}}{n+1}$ 会得到 $\\frac{e^{x+1}}{x+1}$，那是错的。"
+  };
+}});
+
+/* (a^x)' = a^x·ln a */
+TEMPLATES.push({ level:"basic", kind:"deriv", make:function(){
+  var a = pick([2, 3, 5]);
+  return {
+    expr: a + "^{x}",
+    exprFn: function(x){ return Math.pow(a, x); },
+    ans: a + "^{x}\\ln " + a,
+    ansFn: function(x){ return Math.pow(a, x) * Math.log(a); },
+    opts: [a + "^{x}", a + "^{x}\\ln x", "x\\cdot " + a + "^{x-1}"],
+    explain: "$(a^{x})'=a^{x}\\ln a$：指数函数求导要<em>乘</em>一个 $\\ln a$（这里 $a=" + a + "$）。"
+  };
+}});
+
+/* ∫a^x dx = a^x/ln a + C */
+TEMPLATES.push({ level:"basic", kind:"integ", make:function(){
+  var a = pick([2, 3, 5]);
+  return {
+    expr: a + "^{x}",
+    exprFn: function(x){ return Math.pow(a, x); },
+    ans: fr(a + "^{x}", "\\ln " + a) + "+C",
+    ansFn: function(x){ return Math.pow(a, x) / Math.log(a); },
+    opts: [a + "^{x}\\ln " + a + "+C", fr(a + "^{x+1}", "x+1") + "+C", a + "^{x}+C"],
+    explain: "对照表里 $(a^{x})'=a^{x}\\ln a$，求积分就把它<em>除</em>过去：$\\int " + a + "^{x}\\,dx=\\frac{" + a + "^{x}}{\\ln " + a + "}+C$。"
+  };
+}});
+
+/* —— 对数函数 —— */
+/* (ln|x|)' = 1/x */
+TEMPLATES.push({ level:"basic", kind:"deriv", make:function(){
+  return {
+    expr: "\\ln|x|",
+    exprFn: function(x){ return Math.log(Math.abs(x)); },
+    ans: fr(1, "x"),
+    ansFn: function(x){ return 1 / x; },
+    opts: [fr(1, "x^{2}"), "x\\ln x-x", "\\ln x"],
+    explain: "$(\\ln|x|)'=\\frac{1}{x}$（$x\\ne 0$）。注意 $x\\ln x-x$ 是 $\\ln x$ 的<em>原函数</em>，方向别搞反。"
+  };
+}});
+
+/* ∫1/x dx = ln|x| + C */
+TEMPLATES.push({ level:"basic", kind:"integ", make:function(){
+  return {
+    expr: fr(1, "x"),
+    exprFn: function(x){ return 1 / x; },
+    ans: "\\ln|x|+C",
+    ansFn: function(x){ return Math.log(Math.abs(x)); },
+    opts: [fr("x^{-2}", "-2") + "+C", "-" + fr(1, "x^{2}") + "+C", fr(1, "x") + "+C"],
+    explain: "$\\mu=-1$ 是幂函数公式的例外：$\\int\\frac{1}{x}\\,dx=\\ln|x|+C$。硬套幂公式会得到 $\\frac{x^{-2}}{-2}$，正是最常见的错项。"
+  };
+}});
+
+/* —— 正余弦 —— */
+TEMPLATES.push({ level:"basic", kind:"deriv", make:function(){
+  return {
+    expr: "\\sin x",
+    exprFn: Math.sin,
+    ans: "\\cos x",
+    ansFn: Math.cos,
+    opts: ["-\\sin x", "\\sin x", "-\\cos x"],
+    explain: "$(\\sin x)'=\\cos x$。三角求导是一个循环：$\\sin\\to\\cos\\to-\\sin\\to-\\cos$。"
+  };
+}});
+
+TEMPLATES.push({ level:"basic", kind:"deriv", make:function(){
+  return {
+    expr: "\\cos x",
+    exprFn: Math.cos,
+    ans: "-\\sin x",
+    ansFn: function(x){ return -Math.sin(x); },
+    opts: ["\\sin x", "\\cos x", "-\\cos x"],
+    explain: "$(\\cos x)'=-\\sin x$——负号不能丢，这也是 $\\int\\sin x\\,dx=-\\cos x+C$ 里那个负号的来源。"
+  };
+}});
+
+TEMPLATES.push({ level:"basic", kind:"integ", make:function(){
+  return {
+    expr: "\\cos x",
+    exprFn: Math.cos,
+    ans: "\\sin x+C",
+    ansFn: Math.sin,
+    opts: ["-\\sin x+C", "\\cos x+C", "-\\cos x+C"],
+    explain: "$\\int\\cos x\\,dx=\\sin x+C$。表中 $(\\sin x)'=\\cos x$ 反着读就是它。"
+  };
+}});
+
+TEMPLATES.push({ level:"basic", kind:"integ", make:function(){
+  return {
+    expr: "\\sin x",
+    exprFn: Math.sin,
+    ans: "-\\cos x+C",
+    ansFn: function(x){ return -Math.cos(x); },
+    opts: ["\\cos x+C", "\\sin x+C", "-\\sin x+C"],
+    explain: "$\\int\\sin x\\,dx=-\\cos x+C$。表左栏特意写成 $(-\\cos x)'=\\sin x$，就是为了让你直接照抄。"
+  };
+}});
+
+/* —— tan / sec / cot / csc —— */
+TEMPLATES.push({ level:"advanced", kind:"deriv", make:function(){
+  return {
+    expr: "\\tan x",
+    exprFn: Math.tan,
+    ans: "\\sec^{2}x",
+    ansFn: function(x){ return 1 / Math.pow(Math.cos(x), 2); },
+    opts: ["\\csc^{2}x", "\\tan^{2}x", "\\sec x\\tan x"],
+    explain: "$(\\tan x)'=\\sec^{2}x=\\frac{1}{\\cos^{2}x}$（$\\cos x\\ne 0$）。别和 $(\\sec x)'$ 混淆。"
+  };
+}});
+
+TEMPLATES.push({ level:"advanced", kind:"integ", make:function(){
+  return {
+    expr: "\\sec^{2}x",
+    exprFn: function(x){ return 1 / Math.pow(Math.cos(x), 2); },
+    ans: "\\tan x+C",
+    ansFn: Math.tan,
+    opts: ["-\\cot x+C", "\\sec x+C", "\\sec x\\tan x+C"],
+    explain: "$\\int\\sec^{2}x\\,dx=\\tan x+C$。把表中 $(\\tan x)'=\\sec^{2}x$ 反过来读就是它。"
+  };
+}});
+
+TEMPLATES.push({ level:"advanced", kind:"deriv", make:function(){
+  return {
+    expr: "\\sec x",
+    exprFn: function(x){ return 1 / Math.cos(x); },
+    ans: "\\sec x\\tan x",
+    ansFn: function(x){ return Math.sin(x) / Math.pow(Math.cos(x), 2); },
+    opts: ["\\sec x", "\\sec^{2}x", "-\\csc x\\cot x"],
+    explain: "$(\\sec x)'=\\sec x\\tan x$。记住这一条，$\\int\\sec x\\tan x\\,dx=\\sec x+C$ 也就不用背了。"
+  };
+}});
+
+TEMPLATES.push({ level:"advanced", kind:"integ", make:function(){
+  return {
+    expr: "\\sec x\\tan x",
+    exprFn: function(x){ return Math.sin(x) / Math.pow(Math.cos(x), 2); },
+    ans: "\\sec x+C",
+    ansFn: function(x){ return 1 / Math.cos(x); },
+    opts: ["\\tan x+C", "\\sec^{2}x+C", "\\ln|\\sec x+\\tan x|+C"],
+    explain: "$\\int\\sec x\\tan x\\,dx=\\sec x+C$。最后那个对数选项是 $\\int\\sec x\\,dx$ 的答案，专治「长得像」的混淆。"
+  };
+}});
+
+TEMPLATES.push({ level:"advanced", kind:"deriv", make:function(){
+  return {
+    expr: "\\cot x",
+    exprFn: function(x){ return 1 / Math.tan(x); },
+    ans: "-\\csc^{2}x",
+    ansFn: function(x){ return -1 / Math.pow(Math.sin(x), 2); },
+    opts: ["\\csc^{2}x", "-\\sec^{2}x", "-\\csc x\\cot x"],
+    explain: "$(\\cot x)'=-\\csc^{2}x$。表里写成 $(-\\cot x)'=\\csc^{2}x$，两者只差一个负号的位置。"
+  };
+}});
+
+TEMPLATES.push({ level:"advanced", kind:"integ", make:function(){
+  return {
+    expr: "\\csc^{2}x",
+    exprFn: function(x){ return 1 / Math.pow(Math.sin(x), 2); },
+    ans: "-\\cot x+C",
+    ansFn: function(x){ return -1 / Math.tan(x); },
+    opts: ["\\cot x+C", "-\\tan x+C", "-\\csc x+C"],
+    explain: "$\\int\\csc^{2}x\\,dx=-\\cot x+C$。负号在最前面，容易漏。"
+  };
+}});
+
+TEMPLATES.push({ level:"advanced", kind:"deriv", make:function(){
+  return {
+    expr: "\\csc x",
+    exprFn: function(x){ return 1 / Math.sin(x); },
+    ans: "-\\csc x\\cot x",
+    ansFn: function(x){ return -(1 / Math.sin(x)) * (1 / Math.tan(x)); },
+    opts: ["\\csc x\\cot x", "-\\csc^{2}x", "-\\sec x\\tan x"],
+    explain: "$(\\csc x)'=-\\csc x\\cot x$。与 $(\\sec x)'=\\sec x\\tan x$ 成对记忆，只差负号和 f 换成 c。"
+  };
+}});
+
+TEMPLATES.push({ level:"advanced", kind:"integ", make:function(){
+  return {
+    expr: "\\csc x\\cot x",
+    exprFn: function(x){ return Math.cos(x) / Math.pow(Math.sin(x), 2); },
+    ans: "-\\csc x+C",
+    ansFn: function(x){ return -1 / Math.sin(x); },
+    opts: ["\\csc x+C", "-\\cot x+C", "\\ln|\\csc x-\\cot x|+C"],
+    explain: "$\\int\\csc x\\cot x\\,dx=-\\csc x+C$。对数选项是 $\\int\\csc x\\,dx$ 的答案，别选错。"
+  };
+}});
+
+/* —— 反三角函数 —— */
+TEMPLATES.push({ level:"advanced", kind:"deriv", make:function(){
+  return {
+    expr: "\\arcsin x",
+    exprFn: Math.asin,
+    ans: fr(1, "\\sqrt{1-x^{2}}"),
+    ansFn: function(x){ return 1 / Math.sqrt(1 - x * x); },
+    opts: [fr(1, "\\sqrt{1+x^{2}}"), "-" + fr(1, "\\sqrt{1-x^{2}}"), fr(1, "1-x^{2}")],
+    explain: "$(\\arcsin x)'=\\frac{1}{\\sqrt{1-x^{2}}}$（$|x|<1$）。根号里是减号，且没有负号——负号是 $\\arccos$ 的。"
+  };
+}});
+
+TEMPLATES.push({ level:"advanced", kind:"integ", make:function(){
+  return {
+    expr: fr(1, "\\sqrt{1-x^{2}}"),
+    exprFn: function(x){ return 1 / Math.sqrt(1 - x * x); },
+    ans: "\\arcsin x+C",
+    ansFn: Math.asin,
+    opts: ["\\arccos x+C", "\\arctan x+C", fr(1, "\\sqrt{1-x^{2}}") + "+C"],
+    explain: "$\\int\\frac{1}{\\sqrt{1-x^{2}}}\\,dx=\\arcsin x+C$。$\\arccos x$ 的导数是负的，所以它不是原函数。"
+  };
+}});
+
+TEMPLATES.push({ level:"advanced", kind:"deriv", make:function(){
+  return {
+    expr: "\\arctan x",
+    exprFn: Math.atan,
+    ans: fr(1, "1+x^{2}"),
+    ansFn: function(x){ return 1 / (1 + x * x); },
+    opts: [fr(1, "1-x^{2}"), "-" + fr(1, "1+x^{2}"), fr(1, "\\sqrt{1-x^{2}}")],
+    explain: "$(\\arctan x)'=\\frac{1}{1+x^{2}}$。没有根号，且是加号——和 $\\arcsin$ 那一条正好反过来。"
+  };
+}});
+
+TEMPLATES.push({ level:"advanced", kind:"integ", make:function(){
+  return {
+    expr: fr(1, "1+x^{2}"),
+    exprFn: function(x){ return 1 / (1 + x * x); },
+    ans: "\\arctan x+C",
+    ansFn: Math.atan,
+    opts: ["\\arcsin x+C", "\\ln(1+x^{2})+C", fr(1, "1+x^{2}") + "+C"],
+    explain: "$\\int\\frac{1}{1+x^{2}}\\,dx=\\arctan x+C$。$\\ln(1+x^{2})$ 的导数是 $\\frac{2x}{1+x^{2}}$，多了个 $2x$。"
+  };
+}});
+
+/* —— 需要「凑」的两个积分 —— */
+TEMPLATES.push({ level:"advanced", kind:"deriv", make:function(){
+  return {
+    expr: "\\ln|\\sec x+\\tan x|",
+    exprFn: function(x){ return Math.log(Math.abs(1 / Math.cos(x) + Math.tan(x))); },
+    ans: "\\sec x",
+    ansFn: function(x){ return 1 / Math.cos(x); },
+    opts: ["\\csc x", fr(1, "\\sec x+\\tan x"), "\\sec x\\tan x"],
+    explain: "对 $\\ln|\\sec x+\\tan x|$ 求导，内层导数 $\\sec x\\tan x+\\sec^{2}x=\\sec x(\\tan x+\\sec x)$ 正好约掉，只剩 $\\sec x$。"
+  };
+}});
+
+TEMPLATES.push({ level:"advanced", kind:"integ", make:function(){
+  return {
+    expr: "\\sec x",
+    exprFn: function(x){ return 1 / Math.cos(x); },
+    ans: "\\ln|\\sec x+\\tan x|+C",
+    ansFn: function(x){ return Math.log(Math.abs(1 / Math.cos(x) + Math.tan(x))); },
+    opts: ["\\ln|\\sec x-\\tan x|+C", "\\ln|\\tan x|+C", "\\sec x\\tan x+C"],
+    explain: "$\\int\\sec x\\,dx=\\ln|\\sec x+\\tan x|+C$。表中左边写着 $(\\ln|\\sec x+\\tan x|)'=\\sec x$，照着反过来用就行。"
+  };
+}});
+
+TEMPLATES.push({ level:"advanced", kind:"deriv", make:function(){
+  return {
+    expr: "\\ln|\\csc x-\\cot x|",
+    exprFn: function(x){ return Math.log(Math.abs(1 / Math.sin(x) - 1 / Math.tan(x))); },
+    ans: "\\csc x",
+    ansFn: function(x){ return 1 / Math.sin(x); },
+    opts: ["-\\csc x", "\\csc x\\cot x", "\\ln|\\csc x-\\cot x|"],
+    explain: "同理，$\\ln|\\csc x-\\cot x|$ 的导数约掉公因式后只剩 $\\csc x$。注意这里中间是<em>减号</em>。"
+  };
+}});
+
+TEMPLATES.push({ level:"advanced", kind:"integ", make:function(){
+  return {
+    expr: "\\csc x",
+    exprFn: function(x){ return 1 / Math.sin(x); },
+    ans: "\\ln|\\csc x-\\cot x|+C",
+    ansFn: function(x){ return Math.log(Math.abs(1 / Math.sin(x) - 1 / Math.tan(x))); },
+    opts: ["\\ln|\\sec x+\\tan x|+C", "\\ln|\\csc x+\\cot x|+C", "-\\csc x\\cot x+C"],
+    explain: "$\\int\\csc x\\,dx=\\ln|\\csc x-\\cot x|+C$。写成 $\\csc x+\\cot x$ 是经典陷阱，两者只差符号。"
+  };
+}});
+
+/* —— 概念题（只在「双向」里出现）—— */
+TEMPLATES.push({ level:"basic", kind:"concept", make:function(){
+  return {
+    expr: "\\int f(x)\\,dx",
+    prompt: "已知 $F'(x)=f(x)$，则下列等式正确的是：",
+    ans: "F(x)+C",
+    opts: ["F(x)", "f(x)+C", "F'(x)+C"],
+    explain: "不定积分是<em>全体</em>原函数：$\\int f(x)\\,dx=F(x)+C$。只写 $F(x)$ 只是其中一个原函数。"
+  };
+}});
+
+TEMPLATES.push({ level:"basic", kind:"concept", make:function(){
+  return {
+    expr: "\\left(\\int f(x)\\,dx\\right)'",
+    prompt: "先积分、再求导，结果是：",
+    ans: "f(x)",
+    opts: ["f(x)+C", "F(x)", "f'(x)"],
+    explain: "先积后导回到原函数：$\\left(\\int f(x)\\,dx\\right)'=f(x)$，常数 $C$ 求导归零。"
+  };
+}});
+
+TEMPLATES.push({ level:"basic", kind:"concept", make:function(){
+  return {
+    expr: "\\int F'(x)\\,dx",
+    prompt: "若 $F$ 可导，则下列等式正确的是：",
+    ans: "F(x)+C",
+    opts: ["F(x)", "F'(x)+C", "f(x)+C"],
+    explain: "先导后积：$\\int F'(x)\\,dx=F(x)+C$。两个方向差一个常数 $C$，这就是整张表的统一规律。"
+  };
+}});
+
+/* ---------------------------------------------------------------- 难度 / 方向 */
+var LEVELS = {
+  basic:    { name:"基础", secs:25 },
+  advanced: { name:"进阶", secs:35 },
+  all:      { name:"综合", secs:30 }
+};
+var MODES = { deriv:"求导", integ:"积分", both:"双向", concept:"概念" };
+
+function poolFor(level, mode){
+  var out = [], i, t;
+  for(i = 0; i < TEMPLATES.length; i++){
+    t = TEMPLATES[i];
+    if(level !== "all" && t.level !== level) continue;
+    if(t.kind === "concept"){ if(mode === "both") out.push(t); continue; }
+    if(mode === "both" || mode === t.kind) out.push(t);
+  }
+  return out;
+}
+
+function normLatex(s){
+  return String(s).replace(/\\left|\\right/g, "").replace(/\\[,;!]/g, "").replace(/\s+/g, "");
+}
+
+/* 四个选项必须互不相同、没有脏值 */
+function validItem(q){
+  if(!q || !q.ans || !q.opts || q.opts.length !== 3) return false;
+  var all = [q.ans].concat(q.opts), seen = {}, i, n;
+  for(i = 0; i < all.length; i++){
+    if(typeof all[i] !== "string" || !all[i]) return false;
+    if(/undefined|NaN|Infinity|null/.test(all[i])) return false;
+    n = normLatex(all[i]);
+    if(!n || seen[n]) return false;
+    seen[n] = 1;
+  }
+  return true;
+}
+
+/* 生成一道题；选项重复就重抽（这是上一版最隐蔽的 bug） */
+function makeSafe(t){
+  var cand = null, i, att, c;
+  for(att = 0; att < 50; att++){
+    c = t.make();
+    if(validItem(c)){ cand = c; break; }
+  }
+  if(!cand) cand = t.make();
+  var opts = [{ latex: cand.ans, correct: true }];
+  for(i = 0; i < cand.opts.length; i++) opts.push({ latex: cand.opts[i], correct: false });
+  return {
+    kind: t.kind,
+    level: t.level,
+    expr: cand.expr,
+    prompt: cand.prompt || "",
+    options: shuffle(opts),
+    explain: cand.explain,
+    exprFn: cand.exprFn || null,
+    ansFn: cand.ansFn || null
+  };
+}
+
+/* 整池多轮洗牌，模板不够时才进入下一轮；相邻两题不重复同一模板 */
+function buildQuestions(level, mode, count){
+  var pool = poolFor(level, mode), order = [], rounds = 0, batch, i, tmp;
+  if(!pool.length) return [];
+  while(order.length < count && rounds < 200){
+    batch = shuffle(pool);
+    if(order.length && batch.length > 1 && batch[0] === order[order.length - 1]){
+      tmp = batch[0]; batch[0] = batch[1]; batch[1] = tmp;
+    }
+    order = order.concat(batch);
+    rounds++;
+  }
+  order = order.slice(0, count);
+  var qs = [];
+  for(i = 0; i < order.length; i++) qs.push(makeSafe(order[i]));
+  return qs;
+}
+
+/* ---------------------------------------------------------------- 对照表数据 */
+var TABLE = [
+  { title:"基本原理：互为逆运算", rows:[
+    ["(F(x))' = f(x)", "\\int f(x)\\,dx = F(x)+C",
+     "求导与积分是一对互逆操作，结果永远差一个任意常数 $C$——这就是「不定」的意思。"]
+  ]},
+  { title:"幂函数 · 指数函数 · 对数函数", rows:[
+    ["(kx)' = k", "\\int k\\,dx = kx+C",
+     "常数的原函数是一次函数；斜率 $k$ 直接变成系数。"]
+    ,["(x^{\\mu+1})' = (\\mu+1)x^{\\mu}", "\\int x^{\\mu}\\,dx = \\frac{x^{\\mu+1}}{\\mu+1}+C\\quad(\\mu\\ne-1)",
+     "求导指数量减 1，积分指数<em>加</em> 1 再除以新指数。$\\mu=-1$ 时不能用，见下一行的 $\\frac{1}{x}$。"]
+    ,["(\\ln|x|)' = \\frac{1}{x}", "\\int \\frac{1}{x}\\,dx = \\ln|x|+C",
+     "$x\\ne 0$。这一行是幂公式唯一的破例，也是「加绝对值」最容易忘的地方。"]
+    ,["(e^{x})' = e^{x}", "\\int e^{x}\\,dx = e^{x}+C",
+     "求导、积分都不变的只有它。别当成幂函数去凑 $\\frac{e^{x+1}}{x+1}$。"]
+    ,["(a^{x})' = a^{x}\\ln a", "\\int a^{x}\\,dx = \\frac{a^{x}}{\\ln a}+C",
+     "$a>0,\\ a\\ne 1$。求导<em>乘</em> $\\ln a$，积分<em>除</em> $\\ln a$，方向最容易写反。"]
+  ]},
+  { title:"三角函数", rows:[
+    ["(\\sin x)' = \\cos x", "\\int \\cos x\\,dx = \\sin x+C", ""]
+    ,["(-\\cos x)' = \\sin x", "\\int \\sin x\\,dx = -\\cos x+C",
+     "左栏故意写成 $(-\\cos x)'$，就是为了让右栏能直接照抄。等价写法：$(\\cos x)'=-\\sin x$。"]
+    ,["(\\tan x)' = \\sec^{2}x", "\\int \\sec^{2}x\\,dx = \\tan x+C", "$\\cos x\\ne 0$。"]
+    ,["(\\sec x)' = \\sec x\\tan x", "\\int \\sec x\\tan x\\,dx = \\sec x+C", ""]
+    ,["(-\\cot x)' = \\csc^{2}x", "\\int \\csc^{2}x\\,dx = -\\cot x+C",
+     "等价写法：$(\\cot x)'=-\\csc^{2}x$。与上一组对照着记：tan↔sec，cot↔csc。"]
+    ,["(\\csc x)' = -\\csc x\\cot x", "\\int \\csc x\\cot x\\,dx = -\\csc x+C", "$\\sin x\\ne 0$。"]
+  ]},
+  { title:"反三角函数", rows:[
+    ["(\\arcsin x)' = \\frac{1}{\\sqrt{1-x^{2}}}", "\\int \\frac{1}{\\sqrt{1-x^{2}}}\\,dx = \\arcsin x+C",
+     "$|x|<1$。根号里是<em>减</em>号，前面<em>没有</em>负号。"]
+    ,["(\\arctan x)' = \\frac{1}{1+x^{2}}", "\\int \\frac{1}{1+x^{2}}\\,dx = \\arctan x+C",
+     "没有根号，$1+x^{2}$ 是<em>加</em>号。和 $\\arcsin$ 那行正好互补，混着记才不乱。"]
+  ]},
+  { title:"需要「凑」的两个积分（建议直接背结果）", rows:[
+    ["(\\ln|\\sec x+\\tan x|)' = \\sec x", "\\int \\sec x\\,dx = \\ln|\\sec x+\\tan x|+C",
+     "中间是加号。"
+     ]
+    ,["(\\ln|\\csc x-\\cot x|)' = \\csc x", "\\int \\csc x\\,dx = \\ln|\\csc x-\\cot x|+C",
+     "中间是<em>减</em>号，与上一行对称。"]
+  ]}
+];
+/* @engine:end */
+
+/* ============================================================================
+   应用层（DOM）
+   ========================================================================== */
+var $ = function(sel){ return document.querySelector(sel); };
+var $$ = function(sel){ return Array.prototype.slice.call(document.querySelectorAll(sel)); };
+var MATH_ENGINE = (window.katex && typeof window.katex.render === "function") ? "katex" : "mini";
+
+function renderMath(el, latex, display){
+  el.innerHTML = "";
+  if(MATH_ENGINE === "katex"){
+    try{
+      window.katex.render(latex, el, { displayMode: !!display, throwOnError: true });
+      return;
+    }catch(e){ /* 落到兜底 */ }
+  }
+  try{ el.innerHTML = miniTeX(latex); }
+  catch(e2){ el.textContent = latex; }
+}
+
+/* 把 "文本 $公式$ 文本" 逐段渲染：公式走 renderMath，纯文本走 textNode。   文本里只额外认一个固定标记 <em>…</em> 做强调，其余 HTML 一律当纯文本，不注入。 */
+function renderExplain(el, str){
+  var parts = String(str).split(/\$([^$]+)\$/g), i, j, sp, segs, m, em;
+  el.innerHTML = "";
+  for(i = 0; i < parts.length; i++){
+    if(i % 2 === 1){
+      sp = document.createElement("span");
+      renderMath(sp, parts[i]);
+      el.appendChild(sp);
+      continue;
+    }
+    if(!parts[i]) continue;
+    segs = parts[i].split(/(<em>[\s\S]*?<\/em>)/g);
+    for(j = 0; j < segs.length; j++){
+      if(!segs[j]) continue;
+      m = /^<em>([\s\S]*)<\/em>$/.exec(segs[j]);
+      if(m){
+        em = document.createElement("em");
+        em.textContent = m[1];
+        el.appendChild(em);
+      }else{
+        el.appendChild(document.createTextNode(segs[j]));
+      }
+    }
+  }
+}
+
+/* 手机上：公式若比容器宽，按比例缩小字号（KaTeX 用 em 排版，缩字号即等比缩排），
+   避免选项被裁掉、或逼着学生横向来回滚。只在真的放不下时才缩，最小 62%。 */
+function fitMath(el){
+  if(!el) return;
+  el.style.fontSize = "";
+  var avail = el.clientWidth;
+  if(!avail) return;
+  var need = el.scrollWidth;
+  if(need > avail + 2){
+    var base = parseFloat(window.getComputedStyle(el).fontSize) || 16;
+    var s = Math.max(0.62, (avail - 2) / need);
+    el.style.fontSize = (base * s).toFixed(2) + "px";
+  }
+}
+function fitAllMath(){
+  var v = currentView();
+  if(v === "game"){
+    fitMath($("#gExpr"));
+    $$("#gOptions .ans-opt .math").forEach(fitMath);
+  }else if(v === "result"){
+    $$("#rWrongList .wl-q > span, #rWrongList .wl-a > span").forEach(fitMath);
+  }else if(v === "formula"){
+    $$("#ftable .fl, #ftable .fr").forEach(fitMath);
+  }
+}
+var fitTimer = 0;
+window.addEventListener("resize", function(){
+  clearTimeout(fitTimer);
+  fitTimer = setTimeout(fitAllMath, 150);
+});
+if(document.fonts && document.fonts.ready && document.fonts.ready.then){
+  document.fonts.ready.then(function(){ setTimeout(fitAllMath, 60); });
+}
+
+/* ---------------------------------------------------------------- 路由 */
+var VIEWS = ["home", "setup", "game", "result", "ranking", "formula"];
+function currentView(){
+  var h = (location.hash || "").replace("#", "");
+  return VIEWS.indexOf(h) >= 0 ? h : "home";
+}
+function isView(name){
+  var el = document.getElementById("view-" + name);
+  return !!(el && el.classList.contains("active"));
+}
+function go(view){
+  if(currentView() === view){ route(); return; }
+  location.hash = view;
+}
+function route(){
+  var v = currentView(), i;
+  for(i = 0; i < VIEWS.length; i++){
+    document.getElementById("view-" + VIEWS[i]).classList.toggle("active", VIEWS[i] === v);
+  }
+  $$(".nav-link").forEach(function(n){ n.classList.toggle("active", n.dataset.nav === v); });
+  if(v !== "game"){
+    stopClock();                       /* 离开答题页：立刻停表，不留僵尸定时器 */
+  }else if(G && !G.clock && G.idx < G.qs.length){
+    startClock();                      /* 从别的页面切回未完成的比赛：续表 */
+  }
+  if(v === "ranking") renderRanking();
+  if(v === "formula") renderFormula();
+  window.scrollTo(0, 0);
+}
+window.addEventListener("hashchange", route);
+$$("[data-nav]").forEach(function(b){
+  b.addEventListener("click", function(){ go(b.dataset.nav); });
+});
+
+/* ---------------------------------------------------------------- 设置面板 */
+var cfg = { mode:"both", level:"all", count:"15", timed:"1" };
+
+function bindOpts(sel, key){
+  var wrap = $(sel);
+  if(!wrap) return;
+  function choose(o){
+    $$(sel + " .opt").forEach(function(x){ x.classList.remove("sel"); });
+    o.classList.add("sel");
+    cfg[key] = o.dataset.val;
+    updatePoolHint();
+  }
+  wrap.addEventListener("click", function(e){
+    var o = e.target.closest ? e.target.closest(".opt") : null;
+    if(o && wrap.contains(o)) choose(o);
+  });
+  wrap.addEventListener("keydown", function(e){
+    var o = e.target.closest ? e.target.closest(".opt") : null;
+    if(!o) return;
+    if(e.key === "Enter" || e.key === " "){
+      e.preventDefault();
+      choose(o);
+    }
+  });
+}
+bindOpts("#modeOpts", "mode");
+bindOpts("#levelOpts", "level");
+bindOpts("#countOpts", "count");
+bindOpts("#timeOpts", "timed");
+
+function updatePoolHint(){
+  var n = poolFor(cfg.level, cfg.mode).length;
+  var need = parseInt(cfg.count, 10) || 0;
+  var el = $("#poolHint");
+  if(!el) return;
+  el.textContent = "当前筛选题库：" + n + " 个模板" + (need > n ? "，题量超出模板数，会出现重复题" : "");
+}
+
+$("#btnStart").addEventListener("click", startGame);
+
+/* ---------------------------------------------------------------- 比赛状态 */
+var G = null;
+
+function flashInput(){
+  var el = $("#pname");
+  el.classList.remove("shake");
+  void el.offsetWidth;
+  el.classList.add("shake");
+  el.focus();
+}
+
+function startGame(){
+  var name = ($("#pname").value || "").replace(/\s+/g, " ").trim().slice(0, 12);
+  if(!name){ flashInput(); return; }
+  var count = parseInt(cfg.count, 10) || 15;
+  var qs = buildQuestions(cfg.level, cfg.mode, count);
+  if(!qs.length) return;
+  stopClock();
+  G = {
+    name: name, mode: cfg.mode, level: cfg.level,
+    timed: cfg.timed === "1",
+    qs: qs, idx: 0,
+    score: 0, combo: 0, correct: 0, wrong: 0,
+    answered: false, lastPick: -1,
+    tAcc: 0, tLast: 0, qAcc: 0, qLimit: LEVELS[cfg.level].secs,
+    clock: null, log: [], used: 0
+  };
+  go("game");
+  renderQuestion();
+  startClock();
+}
+
+function setBar(ratio){
+  var r = Math.max(0, Math.min(1, ratio));
+  $("#gBar").style.width = (r * 100) + "%";
+}
+function setTimeLeft(sec){
+  var el = $("#gTime");
+  el.textContent = Math.ceil(Math.max(0, sec));
+  el.classList.toggle("low", sec <= 6);
+}
+function updateUsed(){
+  var el = $("#gUsed");
+  if(el) el.textContent = Math.round(G.tAcc / 1000);
+}
+
+function startClock(){
+  stopClock();
+  if(!G) return;
+  G.tLast = (window.performance && performance.now) ? performance.now() : Date.now();
+  G.clock = setInterval(tick, 200);
+}
+function stopClock(){
+  if(G && G.clock){ clearInterval(G.clock); G.clock = null; }
+}
+
+/* 时间戳累加：切后台/页面冻结都不会白送时间，也不会跳秒 */
+function tick(){
+  if(!G || !G.clock) return;
+  var now = (window.performance && performance.now) ? performance.now() : Date.now();
+  var dt = now - G.tLast;
+  G.tLast = now;
+  if(document.hidden || !isView("game")) return;
+  var step = (dt > 0 && dt < 1500) ? dt : 0;   /* 超过 1.5s 视为页面被冻结，丢弃 */
+  if(!step) return;
+  G.tAcc += step;
+  updateUsed();
+  if(G.timed && !G.answered){
+    G.qAcc += step;
+    setTimeLeft(G.qLimit - G.qAcc);
+    if(G.qAcc >= G.qLimit) onTimeout();
+  }
+}
+document.addEventListener("visibilitychange", function(){
+  if(G) G.tLast = (window.performance && performance.now) ? performance.now() : Date.now();
+});
+
+/* ---------------------------------------------------------------- 出题渲染 */
+function displayExpr(q){
+  if(q.kind === "integ") return "\\int " + q.expr + "\\,dx";
+  return q.expr;
+}
+function askText(q){
+  if(q.prompt) return q.prompt;
+  if(q.kind === "integ") return "求不定积分（别忘了 $+C$）";
+  return "求 $f'(x)$";
+}
+/* 错题回顾里要能脱离上下文看懂：求导题补上撇号 */
+function reviewExpr(q){
+  if(q.kind === "integ") return "\\int " + q.expr + "\\,dx";
+  if(q.kind === "deriv") return "\\left(" + q.expr + "\\right)'";
+  return q.expr;
+}
+function indexOfCorrect(q){
+  for(var i = 0; i < q.options.length; i++) if(q.options[i].correct) return i;
+  return -1;
+}
+
+function renderQuestion(){
+  var q = G.qs[G.idx], i;
+  G.answered = false;
+  G.qAcc = 0;
+  G.lastPick = -1;
+
+  $("#gIdx").textContent = G.idx + 1;
+  $("#gTotal").textContent = G.qs.length;
+  $("#gScore").textContent = G.score;
+  $("#gCombo").textContent = G.combo;
+  updateUsed();
+  setBar((G.idx + 1) / G.qs.length);
+
+  $("#gLevelTag").textContent = MODES[q.kind] + " · " + LEVELS[q.level].name + " · 第 " + (G.idx + 1) + " 题";
+  renderMath($("#gExpr"), displayExpr(q), true);
+  renderExplain($("#gAsk"), askText(q));
+
+  var wrap = $("#gOptions");
+  wrap.innerHTML = "";
+  q.options.forEach(function(op, idx){
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "ans-opt";
+    var n = document.createElement("span");
+    n.className = "idx";
+    n.textContent = "ABCD".charAt(idx);
+    var m = document.createElement("span");
+    m.className = "math" + (op.latex.length > 34 ? " sm" : "");
+    renderMath(m, op.latex);
+    b.appendChild(n);
+    b.appendChild(m);
+    b.addEventListener("click", function(){ answer(idx); });
+    wrap.appendChild(b);
+  });
+
+  var tw = $("#gTimeWrap");
+  if(G.timed){ tw.style.display = ""; setTimeLeft(G.qLimit); }
+  else { tw.style.display = "none"; }
+
+  var fb = $("#gFeedback");
+  fb.classList.remove("show", "good", "bad");
+  $("#btnNext").style.display = "none";
+  $("#gFbTitle").textContent = "";
+  $("#gFbExplain").textContent = "";
+  fitAllMath();
+}
+
+function lockOptions(correctIdx, picked){
+  $$("#gOptions .ans-opt").forEach(function(b, i){
+    b.disabled = true;
+    if(i === correctIdx) b.classList.add("correct");
+    else if(i === picked) b.classList.add("wrong");
+    else b.classList.add("dim");
+  });
+}
+
+function showFeedback(good, title, q){
+  var fb = $("#gFeedback");
+  fb.classList.remove("show", "good", "bad");
+  fb.classList.add("show", good ? "good" : "bad");
+  $("#gFbTitle").textContent = title;
+  renderExplain($("#gFbExplain"), (good ? "" : "正确答案见绿色选项。") + q.explain);
+  var last = (G.idx + 1 >= G.qs.length);
+  $("#btnNext").textContent = last ? "出成绩 →" : "下一题 →";
+  $("#btnNext").style.display = "";
+}
+
+function answer(i){
+  if(!G || G.answered) return;
+  var q = G.qs[G.idx];
+  if(!q.options[i]) return;
+  G.answered = true;
+  G.lastPick = i;
+  var correctIdx = indexOfCorrect(q);
+  var good = (i === correctIdx);
+  lockOptions(correctIdx, i);
+  G.log.push({ q: q, pick: i, good: good });
+  setBar((G.idx + 1) / G.qs.length);
+
+  var title;
+  if(good){
+    G.combo += 1;
+    var gain = 10 + Math.min(G.combo - 1, 5) * 2;   /* 只在这里算一次 */
+    G.score += gain;
+    G.correct += 1;
+    title = "回答正确 · +" + gain + " 分";
+  }else{
+    G.combo = 0;
+    G.score = Math.max(0, G.score - 2);
+    G.wrong += 1;
+    title = "回答错误 · −2 分";
+  }
+  $("#gScore").textContent = G.score;
+  $("#gCombo").textContent = G.combo;
+  showFeedback(good, title, q);
+}
+
+function onTimeout(){
+  if(!G || G.answered) return;
+  var q = G.qs[G.idx];
+  G.answered = true;
+  G.lastPick = -1;
+  lockOptions(indexOfCorrect(q), -1);
+  G.log.push({ q: q, pick: -1, good: false, timeout: true });
+  G.combo = 0;
+  G.score = Math.max(0, G.score - 2);
+  G.wrong += 1;
+  setBar((G.idx + 1) / G.qs.length);
+  $("#gScore").textContent = G.score;
+  $("#gCombo").textContent = 0;
+  showFeedback(false, "超时 · −2 分", q);
+}
+
+function nextQuestion(){
+  if(!G || !G.answered) return;
+  G.idx += 1;
+  if(G.idx >= G.qs.length){ finishGame(); return; }
+  renderQuestion();
+}
+$("#btnNext").addEventListener("click", nextQuestion);
+
+/* ---------------------------------------------------------------- 结算 */
+function verdictOf(acc){
+  if(acc >= 95) return "无可挑剔，整张表已经刻进脑子了。";
+  if(acc >= 80) return "很稳，剩下几处多半是符号问题。";
+  if(acc >= 60) return "基本掌握，再刷一轮会明显更顺。";
+  return "先把对照表过一遍，特别是 +C 和负号，再来一轮。";
+}
+
+function renderWrongList(){
+  var box = $("#rWrongList");
+  box.innerHTML = "";
+  var bad = G.log.filter(function(it){ return !it.good; });
+  if(!bad.length){
+    var okEl = document.createElement("div");
+    okEl.className = "wl-empty";
+    okEl.textContent = "本场没有错题，全部正确 🎯";
+    box.appendChild(okEl);
+    return;
+  }
+  bad.slice(0, 12).forEach(function(it){
+    var q = it.q;
+    var item = document.createElement("div");
+    item.className = "wl-item";
+
+    var qe = document.createElement("div");
+    qe.className = "wl-q";
+    var qm = document.createElement("span");
+    renderMath(qm, reviewExpr(q));
+    qe.appendChild(qm);
+    if(it.timeout){
+      var tg = document.createElement("span");
+      tg.className = "badge-bad";
+      tg.textContent = "超时";
+      qe.appendChild(tg);
+    }
+
+    var an = document.createElement("div");
+    an.className = "wl-a";
+    an.appendChild(document.createTextNode("正确答案："));
+    var am = document.createElement("span");
+    renderMath(am, q.options[indexOfCorrect(q)].latex);
+    an.appendChild(am);
+
+    var ex = document.createElement("div");
+    ex.className = "wl-e";
+    renderExplain(ex, q.explain);
+
+    item.appendChild(qe);
+    item.appendChild(an);
+    item.appendChild(ex);
+    box.appendChild(item);
+  });
+  if(bad.length > 12){
+    var more = document.createElement("div");
+    more.className = "wl-e";
+    more.style.paddingTop = "8px";
+    more.textContent = "……另有 " + (bad.length - 12) + " 道错题未列出";
+    box.appendChild(more);
+  }
+  fitAllMath();
+}
+
+function finishGame(){
+  stopClock();
+  var total = G.qs.length;
+  var used = Math.max(1, Math.round(G.tAcc / 1000));
+  var acc = total ? Math.round(G.correct / total * 100) : 0;
+  G.used = used;
+  $("#rScore").innerHTML = G.score + "<small> 分</small>";
+  $("#rVerdict").textContent = G.name + " · " + MODES[G.mode] + " · 正确率 " + acc + "% · " + verdictOf(acc);
+  $("#rCorrect").textContent = G.correct;
+  $("#rWrong").textContent = G.wrong;
+  $("#rTime").textContent = used + "s";
+  renderWrongList();
+  saveRank(G, acc);
+  go("result");
+}
+
+/* ---------------------------------------------------------------- 排行榜 */
+var RANK_KEY = "dj_rank_v1";
+function loadRank(){
+  try{
+    var v = JSON.parse(window.localStorage.getItem(RANK_KEY) || "[]");
+    return Array.isArray(v) ? v : [];
+  }catch(e){ return []; }
+}
+function saveRank(g, acc){
+  try{
+    var list = loadRank();
+    list.push({
+      name: g.name, score: g.score, correct: g.correct, total: g.qs.length, acc: acc,
+      time: g.used, mode: MODES[g.mode], level: LEVELS[g.level].name,
+      timed: g.timed ? 1 : 0,
+      date: new Date().toLocaleDateString("zh-CN", { month: "2-digit", day: "2-digit" })
+    });
+    list.sort(function(a, b){ return (b.score - a.score) || (a.time - b.time) || (b.acc - a.acc); });
+    window.localStorage.setItem(RANK_KEY, JSON.stringify(list.slice(0, 50)));
+  }catch(e){ /* 隐私模式 / 存储已满：静默失败，不影响比赛 */ }
+}
+function esc(s){
+  return String(s).replace(/[&<>"]/g, function(c){
+    return { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c];
+  });
+}
+function renderRanking(){
+  var list = loadRank();
+  var empty = $("#rankEmpty"), lw = $("#rankList"), bw = $("#rankBars");
+  if(!list.length){
+    empty.style.display = "block";
+    lw.innerHTML = "";
+    bw.innerHTML = "";
+    return;
+  }
+  empty.style.display = "none";
+  lw.innerHTML = list.map(function(r, i){
+    var top = i < 3 ? " top" : "";
+    var noCls = i === 0 ? "r1" : (i === 1 ? "r2" : (i === 2 ? "r3" : ""));
+    return '<div class="rank-row' + top + '">' +
+      '<div class="rank-no ' + noCls + '">' + (i + 1) + '</div>' +
+      '<div class="rank-info"><div class="rank-name">' + esc(r.name) + '</div>' +
+      '<div class="rank-meta">' + esc(r.mode) + ' · ' + esc(r.level) + ' · 答对 ' + r.correct + '/' + r.total +
+      ' · 用时 ' + r.time + 's · ' + esc(r.date) + '</div></div>' +
+      '<div class="rank-score"><div class="s">' + r.score + '</div><div class="d">分</div></div></div>';
+  }).join("");
+
+  var max = Math.max.apply(null, list.map(function(r){ return r.score; }));
+  bw.innerHTML = '<div class="rtitle">得分对比（前 10）</div>' +
+    list.slice(0, 10).map(function(r){
+      var w = max > 0 ? Math.max(3, Math.round(r.score / max * 100)) : 3;
+      return '<div class="rbar"><span class="nm">' + esc(r.name) + '</span>' +
+        '<div class="track"><div class="fill" style="width:' + w + '%"></div></div>' +
+        '<span class="vl">' + r.score + '</span></div>';
+    }).join("");
+}
+$("#btnClearRank").addEventListener("click", function(){
+  if(window.confirm("确定清空全部排行榜记录？")){
+    try{ window.localStorage.removeItem(RANK_KEY); }catch(e){}
+    renderRanking();
+  }
+});
+
+/* ---------------------------------------------------------------- 对照表 */
+function renderFormula(){
+  var host = $("#ftable");
+  if(!host || host.dataset.built === "1") return;
+  TABLE.forEach(function(grp){
+    var h = document.createElement("h3");
+    h.className = "fgh";
+    h.textContent = grp.title;
+    host.appendChild(h);
+
+    var grid = document.createElement("div");
+    grid.className = "fgrid";
+    grp.rows.forEach(function(r){
+      var row = document.createElement("div");
+      row.className = "frow";
+      var l = document.createElement("div"); l.className = "fl"; renderMath(l, r[0]);
+      var m = document.createElement("div"); m.className = "fm"; m.textContent = "⇄";
+      var rr = document.createElement("div"); rr.className = "fr"; renderMath(rr, r[1]);
+      row.appendChild(l); row.appendChild(m); row.appendChild(rr);
+      if(r[2]){
+        var n = document.createElement("div");
+        n.className = "fnote";
+        renderExplain(n, r[2]);
+        row.appendChild(n);
+      }
+      grid.appendChild(row);
+    });
+    host.appendChild(grid);
+  });
+  host.dataset.built = "1";
+  $$("#ftable .fl, #ftable .fr").forEach(fitMath);
+}
+
+/* ---------------------------------------------------------------- 按钮 / 键盘 */
+$("#btnQuit").addEventListener("click", function(){
+  if(!G) return;
+  if(window.confirm("退出本场？本场成绩不会保存。")){
+    stopClock();
+    G = null;
+    go("setup");
+  }
+});
+$("#btnReplay").addEventListener("click", function(){ if(G) startGame(); });
+$("#btnNextPlayer").addEventListener("click", function(){ go("setup"); });
+
+document.addEventListener("keydown", function(e){
+  var v = currentView();
+  if(v === "setup" && e.key === "Enter"){ startGame(); return; }
+  if(v === "game" && G){
+    var t = e.target, tag = (t && t.tagName) || "";
+    if(tag === "INPUT" || tag === "TEXTAREA") return;
+    if(/^[1-4]$/.test(e.key)){ answer(parseInt(e.key, 10) - 1); return; }
+    if(/^[a-dA-D]$/.test(e.key)){
+      answer(e.key.toLowerCase().charCodeAt(0) - 97);
+      return;
+    }
+    if((e.key === "Enter" || e.key === " ") && G.answered){
+      e.preventDefault();
+      nextQuestion();
+    }
+  }
+});
+
+/* ---------------------------------------------------------------- 首页可视化
+   上图 f(x)=cos x，下图一族 F(x)=sin x+C。
+   强调：上图的高 = 下图的斜率；C 只是把曲线整体上下平移。
+   注意：这里绝不改写全局 requestAnimationFrame（上一版就是栽在这上面）。
+--------------------------------------------------------------------------- */
+(function heroViz(){
+  var canvas = document.getElementById("viz");
+  if(!canvas || !canvas.getContext) return;
+  var ctx = canvas.getContext("2d");
+  var XMIN = -6, XMAX = 6;
+  var f = Math.cos, F = Math.sin;         /* F' = f */
+  var CS = [-1.2, -0.6, 0, 0.6, 1.2];
+  var reduce = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+
+  var W = 0, H = 0, dpr = 1, visible = true, raf = 0, phase = 0, last = 0;
+
+  function resize(){
+    var r = canvas.getBoundingClientRect();
+    if(!r.width || !r.height) return;
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = r.width; H = r.height;
+    canvas.width = Math.round(W * dpr);
+    canvas.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  function PX(v){ return W * 0.5 + v * (W * 0.94 / (XMAX - XMIN)); }
+  function PYtop(v){ return H * 0.26 - f(v) * (H * 0.17); }
+  function PYbot(yval){ return H * 0.77 - yval * (H * 0.08); }
+
+  function draw(x0, shift){
+    if(!W || !H) return;
+    ctx.clearRect(0, 0, W, H);
+
+    /* 竖向网格 */
+    ctx.strokeStyle = "rgba(255,255,255,.045)";
+    ctx.lineWidth = 1;
+    for(var g = Math.ceil(XMIN); g <= XMAX; g++){
+      ctx.beginPath(); ctx.moveTo(PX(g), 0); ctx.lineTo(PX(g), H); ctx.stroke();
+    }
+    /* 零线与分区 */
+    ctx.strokeStyle = "rgba(255,255,255,.13)";
+    ctx.beginPath(); ctx.moveTo(0, PYtop(0)); ctx.lineTo(W, PYtop(0)); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0, PYbot(0)); ctx.lineTo(W, PYbot(0)); ctx.stroke();
+    ctx.strokeStyle = "rgba(255,255,255,.09)";
+    ctx.setLineDash([4, 5]);
+    ctx.beginPath(); ctx.moveTo(0, H * 0.51); ctx.lineTo(W, H * 0.51); ctx.stroke();
+    ctx.setLineDash([]);
+
+    /* 标签 */
+    ctx.font = "12px ui-monospace, Menlo, Consolas, monospace";
+    ctx.fillStyle = "rgba(255,180,84,.8)";
+    ctx.fillText("y = f(x) = cos x", 10, 18);
+    ctx.fillStyle = "rgba(79,209,197,.8)";
+    ctx.fillText("y = F(x) = sin x + C", 10, H * 0.53 + 2);
+
+    /* 上图：f */
+    ctx.beginPath();
+    for(var px = 0; px <= W; px += 2){
+      var v = XMIN + (px / W) * (XMAX - XMIN);
+      var py = PYtop(v);
+      if(px === 0) ctx.moveTo(PX(v), py); else ctx.lineTo(PX(v), py);
+    }
+    ctx.strokeStyle = "rgba(255,180,84,.95)";
+    ctx.lineWidth = 2.4;
+    ctx.stroke();
+
+    /* 下图：一族原函数（C 上下平移），裁在下半区里，别越界到上半图 */
+    var c0 = CS[2] + shift;
+    var topX = PX(x0), topY = PYtop(x0);
+    var botX = PX(x0), botY0 = PYbot(F(x0) + c0);
+    var slope = f(x0);
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(0, H * 0.515, W, H * 0.485);
+    ctx.clip();
+
+    for(var k = 0; k < CS.length; k++){
+      var c = CS[k] + shift;
+      var hi = (k === 2);
+      ctx.beginPath();
+      for(var px2 = 0; px2 <= W; px2 += 2){
+        var v2 = XMIN + (px2 / W) * (XMAX - XMIN);
+        var py2 = PYbot(F(v2) + c);
+        if(px2 === 0) ctx.moveTo(PX(v2), py2); else ctx.lineTo(PX(v2), py2);
+      }
+      ctx.strokeStyle = hi ? "rgba(79,209,197,.95)" : "rgba(79,209,197,.30)";
+      ctx.lineWidth = hi ? 2.4 : 1.4;
+      ctx.stroke();
+    }
+
+    /* 下图切线：斜率正好等于上图在 x0 处的高度 f(x0) */
+    var dxm = 1.1;
+    ctx.strokeStyle = "rgba(255,180,84,.95)";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(PX(x0 - dxm), PYbot(F(x0) + c0 - slope * dxm));
+    ctx.lineTo(PX(x0 + dxm), PYbot(F(x0) + c0 + slope * dxm));
+    ctx.stroke();
+    ctx.restore();
+
+    /* 联动竖虚线 */
+    ctx.strokeStyle = "rgba(255,255,255,.22)";
+    ctx.setLineDash([3, 5]);
+    ctx.lineWidth = 1.2;
+    ctx.beginPath(); ctx.moveTo(topX, topY); ctx.lineTo(botX, botY0); ctx.stroke();
+    ctx.setLineDash([]);
+
+    /* 两个圆点 */
+    ctx.fillStyle = "#ffb454";
+    ctx.beginPath(); ctx.arc(topX, topY, 5, 0, 6.2832); ctx.fill();
+    ctx.fillStyle = "#4fd1c5";
+    ctx.beginPath(); ctx.arc(botX, botY0, 5, 0, 6.2832); ctx.fill();
+
+    /* 读数（节流到 0.1 精度） */
+    var vx = document.getElementById("vx");
+    if(vx){
+      vx.textContent = "x = " + x0.toFixed(1);
+      document.getElementById("vf").textContent = f(x0).toFixed(2);
+      document.getElementById("vs").textContent = slope.toFixed(2);
+    }
+  }
+
+  function frame(now){
+    raf = 0;
+    if(!visible || document.hidden) return;      /* 不销毁循环，靠事件唤醒 */
+    if(!last) last = now;
+    var dt = Math.min(64, now - last);
+    last = now;
+    phase += dt / 1000;
+    var x0 = 3.6 * Math.sin(phase * 0.5);
+    var shift = 0.25 * Math.sin(phase * 0.35);
+    draw(x0, shift);
+    raf = requestAnimationFrame(frame);
+  }
+  function start(){
+    if(raf || reduce) return;
+    if(!visible || document.hidden) return;
+    last = 0;
+    raf = requestAnimationFrame(frame);
+  }
+  function stop(){
+    if(raf){ cancelAnimationFrame(raf); raf = 0; }
+  }
+
+  resize();
+  if(window.IntersectionObserver){
+    new IntersectionObserver(function(es){
+      visible = es[0].isIntersecting;
+      if(visible) start(); else stop();
+    }, { threshold: 0.01 }).observe(canvas);
+  }
+  document.addEventListener("visibilitychange", function(){
+    if(document.hidden) stop(); else start();
+  });
+  var rt = 0;
+  window.addEventListener("resize", function(){
+    clearTimeout(rt);
+    rt = setTimeout(function(){
+      resize();
+      if(reduce || !raf) draw(1.2, 0);
+    }, 120);
+  });
+  if(reduce) draw(1.2, 0);
+  else start();
+})();
+
+/* ---------------------------------------------------------------- 初始化 */
+(function init(){
+  var tag = document.getElementById("engineTag");
+  if(tag) tag.textContent = (MATH_ENGINE === "katex") ? "KaTeX（在线）" : "内置渲染（离线兜底）";
+  /* 对照表底部的提示卡：里面的 $...$ 也要渲染成公式 */
+  $$("#tipList li").forEach(function(li){
+    var txt = li.textContent;
+    if(txt && txt.indexOf("$") >= 0) renderExplain(li, txt);
+  });
+  updatePoolHint();
+  route();
+})();
+</script>
+</body>
+</html>
+
